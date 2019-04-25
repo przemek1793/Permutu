@@ -1,0 +1,77 @@
+import React, { Component } from 'react';
+import Grid from '@material-ui/core/Grid';
+import GridListTile from '@material-ui/core/GridListTile';
+import './GridColumn.css';
+
+
+
+var  red = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+var  black = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+var  green = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+
+
+class GridColumn extends Component {
+
+    constructor(props) {
+      // dorobić sprawdzenie czy w propsach są symbole jakie mają być, a jeśli tak to tylko je załaduj bez tej całej reszty
+        super(props);
+         //jesli tablice są puste to zapełnij je
+        if (red.length===0)
+        {
+            red = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+         }
+        if (black.length===0)
+        {
+           black = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+        }
+        if (green.length===0)
+        {
+            green = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+        }
+
+         let r,b,g;
+          r= Math.floor(Math.random() * red.length);
+          b= Math.floor(Math.random() * black.length);
+          g= Math.floor(Math.random() * green.length);
+          // stan zawiera informacje jakie klocki znajduja sie w kolumnie i czy mają być pokazywane
+          this.state = { showRed: true, showBlack: true, showGreen: true, redSymbol: red[r], blackSymbol: black[b], greenSymbol: green[g]};
+         //usuwanie uzytych elementow z tablicy
+         red.splice(r,1);
+         black.splice(b,1);
+         green.splice(g,1);
+        }
+
+        //trzeba zrobić żeby wywoływało funkcje przekładającą u rodzica i będzie mu przekazywać co tam trzeba ze state
+          zabierzRed = () => {
+             this.setState({showRed: false})
+             this.props.metodaPrzekladania(this.state.redSymbol, 'r', this.props.numerKolumny)
+          }
+
+          zabierzBlack = () => {
+               this.setState({showBlack: false})
+               this.props.metodaPrzekladania(this.state.blackSymbol, 'b', this.props.numerKolumny)
+           }
+
+         zabierzGreen= () => {
+             this.setState({showGreen: false})
+             this.props.metodaPrzekladania(this.state.greenSymbol, 'g', this.props.numerKolumny)
+          }
+
+  render() {
+  
+  //ustalam ktore klocki beda pokazane za pomocą poszczególnych stanów dla każdego koloru w kolumnie
+  return <GridListTile><Grid
+    container
+    direction="column"
+    justify="space-between"
+    alignItems="stretch"
+  >
+    <p className="numerKolumny" >{this.props.numerKolumny}</p>
+    {this.state.showRed ? <img src={require('./symbole/r'+this.state.redSymbol+'.png')} onClick={this.zabierzRed.bind(this)} alt={this.state.redSymbol}/> : null}
+    {this.state.showBlack ? <img src={require('./symbole/b'+this.state.blackSymbol+'.png')} onClick={this.zabierzBlack.bind(this)}  alt={this.state.blackSymbol}/> : null}
+    {this.state.showGreen ? <img src={require('./symbole/g'+this.state.greenSymbol+'.png')} onClick={this.zabierzGreen.bind(this)}  alt={this.state.greenSymbol}/> : null}
+  </Grid></GridListTile>
+  }
+}
+
+export default GridColumn;

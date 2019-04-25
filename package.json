@@ -1,0 +1,37 @@
+{
+  "name": "permutu",
+  "version": "1.0.0",
+  "description": "Aplikacja umożliwiająca grę w Permutu",
+  "main": "src/main.js",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "bootstrap": "^4.3.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.8",
+    "reactstrap": "^7.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron-start": "electron ."
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "author": "Przemysław Pajestka",
+  "devDependencies": {
+    "electron": "^4.0.8"
+  }
+}

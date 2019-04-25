@@ -1,0 +1,40 @@
+.Gra {
+    text-align: center;
+    background-color: #282c34;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    min-height: 100vh;
+  }
+
+  .ButtonLink{
+    height: 10vh;
+    margin: 5vh;
+  }
+
+  .Gracz
+  {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    font-size: 5vh;
+    color: white;
+  }
+
+  .Stan-tekst
+  {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    font-size: 3vh;
+    color: white;
+  }
+
+  .Stan {
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh
+  }

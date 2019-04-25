@@ -1,0 +1,16 @@
+.punkty
+{
+    display: flex;
+    align-items: center;
+    font-size: 2vh;
+    color: white;
+    text-align: center 
+}
+
+.div
+{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
