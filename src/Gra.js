@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import './Gra.css';
 import GameGrid from "./GameGrid"
 import PlayerGrid from "./PlayerGrid"
-import Modal from "./Modal"
 
 var  gracz1 = [];
 var  gracz2 = [];
@@ -12,7 +11,6 @@ var  gracz3 = [];
 var  gracz4 = [];
 var gra;
 
-//wymienić na modala
 
 class Gra extends Component {
 
@@ -22,7 +20,6 @@ class Gra extends Component {
     this.state = { 
       player: 1, 
       ostatniKlocek: [],
-      isShowing: false
     };
 
     //czyszczenie tablic klocków graczy
@@ -35,24 +32,7 @@ class Gra extends Component {
     this.plansza = React.createRef();
 }
 
-openModalHandler = () => {
-  this.setState({
-      isShowing: true
-  });
-}
-
-closeModalHandler = () => {
-  this.setState({
-      isShowing: false
-  });
-}
-
-
-  //albo szukam odpowiedzniego panelu gracza albo wyjebango i wyśle do wszystkich paneli a one już se sprawdzą czy mają coś robić
   przelozSymbol(symbol, kolor, kolumna){
- // będzie stan tury, który będzie się zmieniał pod koniec tej funkcji wywołując przy tym render gdzie będą przekazywane do paneli graczy
- // jako propsy tablica zawierające klocki, które ma obecny gracz, każdy gracz ma swoją tablice
-
 
     //dodawanie klocka do tabeli
     var klocek=kolor+symbol
@@ -128,11 +108,27 @@ closeModalHandler = () => {
     }
     zapis.dane.push({stanPlanszy: kolumny});
     var json = JSON.stringify(zapis);
-    var fs = window.require('fs');
-    fs.writeFile('myjsonfile.json', json, 'utf8', (err) => {
-      if (err) throw err;
-      console.log('Gra została zapisana!');
-    });
+
+    const dialog = window.require('electron').remote.dialog
+    dialog.showSaveDialog({
+      filters: [{
+        name: 'JSON',
+        extensions: ['json']
+      }]
+    },(fileName) => {
+      if (fileName === undefined){
+          console.log("Nie zapisano gry");
+          return;
+      }
+
+      var fs = window.require('fs');
+      fs.writeFile(fileName, json, 'utf8', (err) => {
+          if(err){
+              alert("Bląd przy zapisywaniu "+ err.message)
+          }
+          alert("Gra została zapisana");
+      });
+  }); 
   }
 
   render() {
@@ -187,18 +183,7 @@ closeModalHandler = () => {
           <Button color="light" size="lg" >
               <NavLink to="/Menu" style={{textDecoration: 'none', color:'black' }}>Powrót do menu</NavLink>
           </Button>
-
-          { this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null }
-
-                <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button>
-
-                <Modal
-                    className="modal"
-                    show={this.state.isShowing}
-                    close={this.closeModalHandler}>
-                        Maybe aircrafts fly very high because they don't want to be seen in plane sight?
-                </Modal>
-      </div>
+        </div>
     );
   }
 }
