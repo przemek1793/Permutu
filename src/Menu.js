@@ -30,8 +30,8 @@ class Menu extends Component {
     const fs = window.require('fs');
     var zapis = JSON.parse(fs.readFileSync(file[0], 'utf8'));
     console.log(zapis);
-    menu.props.history.push
-    ({
+    menu.props.history.push(
+    {
       pathname: "/Gra",
       state: zapis
     })

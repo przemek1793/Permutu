@@ -15,10 +15,8 @@ class GameGrid extends Component {
     } 
     return (
       <GridList
-        container
         direction="row"
         justify="space-between"
-        alignItems="center"
       >
         {children}
       </GridList>

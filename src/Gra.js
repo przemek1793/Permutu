@@ -145,20 +145,39 @@ class Gra extends Component {
     var ostatniRuch=[]
     for (var i=0;i<4;i++)
     {
-      ostatniRuch.push(<p className="Stan-tekst">Ostatni ruch gracza {i+1}</p>)
+      ostatniRuch.push(
+      <li key={"Stan-tekst"+(i+1)} className="Stan-tekst">
+        Ostatni ruch gracza {i+1}
+      </li>)
       if (this.state.ostatniKlocek[i]!=="")
       {
         //czy numer kolumny jest 1 czy 2 cyfrowy
         if (this.state.ostatniKlocek[i].length===3)
         {
-         ostatniRuch.push(<img src={require('./symbole/'+this.state.ostatniKlocek[i].slice(0,-1)+'.png')} alt={this.state.ostatniKlocek[i].slice(0,-1)}/>)
-         ostatniRuch.push(<p className="Stan-tekst">w kolumnie {this.state.ostatniKlocek[i].slice(-1)}</p>)
+         ostatniRuch.push(
+          <li key={"symbol"+(i+1)}>
+            <img src={require('./symbole/'+this.state.ostatniKlocek[i].slice(0,-1)+'.png')} alt={this.state.ostatniKlocek[i].slice(0,-1)}/>
+          </li>
+         )
+         ostatniRuch.push(
+           <li key={"kolumna"+(i+1)} className="Stan-tekst">
+              w kolumnie {this.state.ostatniKlocek[i].slice(-1)}
+            </li>
+         )
         }
       
         else
         {
-          ostatniRuch.push(<img src={require('./symbole/'+this.state.ostatniKlocek[i].slice(0,-2)+'.png')} alt={this.state.ostatniKlocek[i].slice(0,-2)}/>)
-          ostatniRuch.push(<p className="Stan-tekst">w kolumnie {this.state.ostatniKlocek[i].slice(-2)}</p>)
+          ostatniRuch.push(
+            <li key={"symbol"+(i+1)}>
+              <img src={require('./symbole/'+this.state.ostatniKlocek[i].slice(0,-2)+'.png')} alt={this.state.ostatniKlocek[i].slice(0,-2)}/>
+            </li>
+           )
+           ostatniRuch.push(
+             <li key={"kolumna"+(i+1)} className="Stan-tekst">
+                w kolumnie {this.state.ostatniKlocek[i].slice(-2)}
+              </li>
+           )
         }
      }
     }
