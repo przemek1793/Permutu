@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import './Menu.css';
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter} from "react-router-dom";
 
 
 const electron = window.require('electron');
 const remote = electron.remote;
+var menu;
 
 function ButtonM(props){
   return <div className="ButtonsM">
@@ -22,7 +23,22 @@ function zamknij (props)
 
 class Menu extends Component {
 
+  wczytajGre()
+  {
+    const dialog = window.require('electron').remote.dialog
+    var file = dialog.showOpenDialog()
+    const fs = window.require('fs');
+    var zapis = JSON.parse(fs.readFileSync(file[0], 'utf8'));
+    console.log(zapis);
+    menu.props.history.push
+    ({
+      pathname: "/Gra",
+      state: zapis
+    })
+  }
+
   render() {
+    menu=this
     return (
       <div className="Menu">
         <header className="Menu-header">
@@ -36,7 +52,7 @@ class Menu extends Component {
               <NavLink to="/Gra" style={{textDecoration: 'none', color:'black' }}>Graj w Permutu</NavLink>
             </Button>
           </div>
-          <ButtonM text="Wczytaj grę" />
+          <ButtonM text="Wczytaj grę"  click={this.wczytajGre}/>
           <ButtonM text="Statystyki" />
           <ButtonM text="Zamknij aplikacje" click={zamknij}/>
         </div>
@@ -45,4 +61,4 @@ class Menu extends Component {
   }
 }
 
-export default Menu;
+export default withRouter(Menu);

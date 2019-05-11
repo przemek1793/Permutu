@@ -16,6 +16,15 @@ class Gra extends Component {
 
   constructor(props) {
     super(props);
+    console.log(this)
+    if (props.location.state===undefined)
+    {
+      console.log("nie ma propsów")
+    }
+    else
+    {
+      console.log("są propsy")
+    }
     //tura 1 gracza
     this.state = { 
       player: 1, 
