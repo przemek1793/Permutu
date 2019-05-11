@@ -3,15 +3,20 @@ import GridList from '@material-ui/core/GridList';
 import GridColumn from "./GridColumn";
 
 class GameGrid extends Component {
+
   //dac do stanu tabele referencji do kolumn i tak bede zapisywał
   render() {
-
-    var children = []; //będzie zawierał kolumny które będą dziećmi grida
+    var children = [];
     var i;
     this.kolumny=[];
     for (i = 1; i < 27; i++) {
       this.kolumny[i]= React.createRef();
-      children.push(<GridColumn key={i} metodaPrzekladania={this.props.metodaPrzekladania} numerKolumny={i} ref={this.kolumny[i]}></GridColumn>)
+      var stanKolumny=undefined
+      if (this.props.stan[i]!==undefined)
+      {
+        stanKolumny=this.props.stan[i]
+      }
+      children.push(<GridColumn key={i} metodaPrzekladania={this.props.metodaPrzekladania} numerKolumny={i} ref={this.kolumny[i]} stan={stanKolumny}></GridColumn>)
     } 
     return (
       <GridList

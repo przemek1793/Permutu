@@ -19,7 +19,6 @@ class Gra extends Component {
     console.log(this)
     if (props.location.state===undefined)
     {
-      console.log("nie ma propsów")
       //tura 1 gracza
       this.state = { 
       player: 1, 
@@ -36,7 +35,6 @@ class Gra extends Component {
     }
     else
     {
-      console.log("są propsy")
       this.state = { 
         player: props.location.state.dane[0].tura, 
         ostatniKlocek: props.location.state.dane[0].poprzednieRuchy,
@@ -190,13 +188,18 @@ class Gra extends Component {
         }
      }
     }
-    
+    var stanPlanszy=[] //pusty przy nowej grze
+    if (this.props.location.state!==undefined) //gra jest wczytana
+    {
+      stanPlanszy=this.props.location.state.dane[1].stanPlanszy
+    }
+
     return (
       <div className="Gra">
         <p className="Gracz">
             Obecnie ruch wykonuje gracz {this.state.player}
         </p>
-        <GameGrid metodaPrzekladania={this.przelozSymbol} ref={this.plansza} ></GameGrid>
+        <GameGrid metodaPrzekladania={this.przelozSymbol} ref={this.plansza}  stan={stanPlanszy}></GameGrid>
         <p className="Gracz">
             Gracz 1
         </p>

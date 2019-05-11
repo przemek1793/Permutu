@@ -104,7 +104,6 @@ class PlayerGrid extends Component {
       <p className="punkty">Obecne punkty: {this.state.punkty}</p>
       </div>
     );
-    //zrobie ramke z punktami i czyja jest teraz tura
   }
 }
 

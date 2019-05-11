@@ -13,33 +13,49 @@ var  green = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P",
 class GridColumn extends Component {
 
     constructor(props) {
-      // dorobić sprawdzenie czy w propsach są symbole jakie mają być, a jeśli tak to tylko je załaduj bez tej całej reszty
         super(props);
-         //jesli tablice są puste to zapełnij je
-        if (red.length===0)
+        //nowa gra
+        if(props.stan===undefined)
         {
-            red = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-         }
-        if (black.length===0)
-        {
-           black = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-        }
-        if (green.length===0)
-        {
-            green = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-        }
+          //jesli tablice są puste to zapełnij je
+          if (red.length===0)
+          {
+              red = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+          }
+          if (black.length===0)
+          {
+            black = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+          }
+          if (green.length===0)
+          {
+              green = ["A", "B", "C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+          }
 
-         let r,b,g;
-          r= Math.floor(Math.random() * red.length);
-          b= Math.floor(Math.random() * black.length);
-          g= Math.floor(Math.random() * green.length);
-          // stan zawiera informacje jakie klocki znajduja sie w kolumnie i czy mają być pokazywane
-          this.state = { showRed: true, showBlack: true, showGreen: true, redSymbol: red[r], blackSymbol: black[b], greenSymbol: green[g]};
-         //usuwanie uzytych elementow z tablicy
-         red.splice(r,1);
-         black.splice(b,1);
-         green.splice(g,1);
+          let r,b,g;
+            r= Math.floor(Math.random() * red.length);
+            b= Math.floor(Math.random() * black.length);
+            g= Math.floor(Math.random() * green.length);
+            // stan zawiera informacje jakie klocki znajduja sie w kolumnie i czy mają być pokazywane
+            this.state = { showRed: true, showBlack: true, showGreen: true, redSymbol: red[r], blackSymbol: black[b], greenSymbol: green[g]};
+          //usuwanie uzytych elementow z tablicy
+          red.splice(r,1);
+          black.splice(b,1);
+          green.splice(g,1);
         }
+        //wczytywanie gry
+        else
+        {
+          this.state = { 
+            redSymbol: props.stan[0].red, 
+            showRed: props.stan[1].showRed,
+            blackSymbol: props.stan[2].black, 
+            showBlack: props.stan[3].showBlack,
+            greenSymbol: props.stan[4].green, 
+            showGreen: props.stan[5].showGreen
+          };
+        }
+        
+      }
 
         //trzeba zrobić żeby wywoływało funkcje przekładającą u rodzica i będzie mu przekazywać co tam trzeba ze state
           zabierzRed = () => {
