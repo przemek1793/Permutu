@@ -11,9 +11,15 @@ class PlayerGrid extends Component {
         this.state={player: props.player, symbole: [],punkty:0}
         var A =[], B= [], C= [], D= [], E= [], F= [], G= [], H= [], I= [], J= [], K= [], L= [], M= [], N= [], O= [], P= [], Q= [], R= [], S= [], T= [], U= [], V= [], W= [], X= [], Y= [],Z= []
         this.state.symbole.push(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z)
+        //przy wczytywaniu gry
+        if(props.symbole.length>0)
+        {
+          this.componentWillReceiveProps(props, true)
+        }
     }
 
-    componentWillReceiveProps(props)
+    //start oznacza, że gra jest wczytywana, a więc stan jest ustawiany za pomocą =, a nie setState
+    componentWillReceiveProps(props, start=0)
     {
       if (props.symbole.length>0)
       {
@@ -25,14 +31,21 @@ class PlayerGrid extends Component {
           {
             var stan=this.state.symbole
             stan[indeks].push(props.symbole[i])
-            this.setState({symbole: stan})
+            if (start)
+            {
+              this.state.symbole=stan
+            }
+            else
+            {
+              this.setState({symbole: stan})
+            }
           }
         }
       }
-      this.liczPunkty()
+      this.liczPunkty(start)
     }
 
-    liczPunkty()
+    liczPunkty(start=0)
     {
       var tempPunkty=0;
       for (var i=0;i<this.state.symbole.length;i++)
@@ -55,7 +68,14 @@ class PlayerGrid extends Component {
           }
         }
       }
-      this.setState({punkty: tempPunkty})
+      if (start)
+      {
+        this.state.punkty=tempPunkty
+      }
+      else
+      {
+        this.setState({punkty: tempPunkty})
+      }
     }
 
 

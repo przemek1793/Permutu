@@ -20,24 +20,33 @@ class Gra extends Component {
     if (props.location.state===undefined)
     {
       console.log("nie ma propsów")
+      //tura 1 gracza
+      this.state = { 
+      player: 1, 
+      ostatniKlocek: [],
+      };
+
+      //czyszczenie tablic klocków graczy
+      gracz1 = [];
+      gracz2 = [];
+      gracz3 = [];
+      gracz4 = [];
+      var ostatni1="",ostatni2="",ostatni3="",ostatni4="";
+      this.state.ostatniKlocek.push (ostatni1,ostatni2,ostatni3,ostatni4)
     }
     else
     {
       console.log("są propsy")
+      this.state = { 
+        player: props.location.state.dane[0].tura, 
+        ostatniKlocek: props.location.state.dane[0].poprzednieRuchy,
+      };
+  
+      gracz1 = props.location.state.dane[0].player1;
+      gracz2 = props.location.state.dane[0].player2;
+      gracz3 = props.location.state.dane[0].player3;
+      gracz4 = props.location.state.dane[0].player4;
     }
-    //tura 1 gracza
-    this.state = { 
-      player: 1, 
-      ostatniKlocek: [],
-    };
-
-    //czyszczenie tablic klocków graczy
-    gracz1 = [];
-    gracz2 = [];
-    gracz3 = [];
-    gracz4 = [];
-    var ostatni1="",ostatni2="",ostatni3="",ostatni4="";
-    this.state.ostatniKlocek.push (ostatni1,ostatni2,ostatni3,ostatni4)
     this.plansza = React.createRef();
 }
 
