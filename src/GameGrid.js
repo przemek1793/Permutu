@@ -11,7 +11,7 @@ class GameGrid extends Component {
     this.kolumny=[];
     for (i = 1; i < 27; i++) {
       this.kolumny[i]= React.createRef();
-      children.push(<GridColumn metodaPrzekladania={this.props.metodaPrzekladania} numerKolumny={i} ref={this.kolumny[i]}></GridColumn>)
+      children.push(<GridColumn key={i} metodaPrzekladania={this.props.metodaPrzekladania} numerKolumny={i} ref={this.kolumny[i]}></GridColumn>)
     } 
     return (
       <GridList

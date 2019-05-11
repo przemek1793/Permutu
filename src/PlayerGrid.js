@@ -66,7 +66,7 @@ class PlayerGrid extends Component {
     for (var i=0;i<this.state.symbole.length;i++)
     {
       klocki.push(
-        <PlayerGridColumn znak={String.fromCharCode(i+65)} 
+        <PlayerGridColumn key={String.fromCharCode(i+65)}  znak={String.fromCharCode(i+65)} 
           red={this.state.symbole[i].includes('r'+String.fromCharCode(i+65))} 
           black={this.state.symbole[i].includes('b'+String.fromCharCode(i+65))} 
           green={this.state.symbole[i].includes('g'+String.fromCharCode(i+65))}>
