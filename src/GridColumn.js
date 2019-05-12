@@ -60,19 +60,39 @@ class GridColumn extends Component {
         //metoda przekładania będzie zwracała informacje co przełożyć:1)nic 2)1klocek 3)kolumne
           zabierzRed = () => {
             console.log(this.state)
-            this.props.metodaPrzekladania('r', this.props.numerKolumny, this.state)
-            this.setState({showRed: false})
+            var zwrot=this.props.metodaPrzekladania('r', this.props.numerKolumny, this.state)
+            if (zwrot===1)
+            {
+              this.setState({showRed: false})
+            }
+            if (zwrot===2)
+            {
+              this.setState({showRed: false,showBlack: false,showGreen: false})
+            }
           }
 
           zabierzBlack = () => {
-            this.props.metodaPrzekladania('b', this.props.numerKolumny, this.state)
-            this.setState({showBlack: false})
-               
+            var zwrot=this.props.metodaPrzekladania('b', this.props.numerKolumny, this.state)
+            if (zwrot===1)
+            {
+              this.setState({showBlack: false})
+            }
+            if (zwrot===2)
+            {
+              this.setState({showRed: false,showBlack: false,showGreen: false})
+            }    
            }
 
          zabierzGreen= () => {
-          this.props.metodaPrzekladania('g', this.props.numerKolumny, this.state)
-          this.setState({showGreen: false})
+            var zwrot=this.props.metodaPrzekladania('g', this.props.numerKolumny, this.state)
+            if (zwrot===1)
+            {
+              this.setState({showGreen: false})
+            }
+            if (zwrot===2)
+            {
+              this.setState({showRed: false,showBlack: false,showGreen: false})
+            }
           }
 
   render() {
