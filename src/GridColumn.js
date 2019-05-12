@@ -59,18 +59,19 @@ class GridColumn extends Component {
 
         //metoda przekładania będzie zwracała informacje co przełożyć:1)nic 2)1klocek 3)kolumne
           zabierzRed = () => {
-            this.props.metodaPrzekladania(this.state.redSymbol, 'r', this.props.numerKolumny, this.state.showRed, this.state.showBlack, this.state.showGreen)
+            console.log(this.state)
+            this.props.metodaPrzekladania('r', this.props.numerKolumny, this.state)
             this.setState({showRed: false})
           }
 
           zabierzBlack = () => {
-            this.props.metodaPrzekladania(this.state.blackSymbol, 'b', this.props.numerKolumny, this.state.showRed, this.state.showBlack, this.state.showGreen)
+            this.props.metodaPrzekladania('b', this.props.numerKolumny, this.state)
             this.setState({showBlack: false})
                
            }
 
          zabierzGreen= () => {
-          this.props.metodaPrzekladania(this.state.greenSymbol, 'g', this.props.numerKolumny, this.state.showRed, this.state.showBlack, this.state.showGreen)
+          this.props.metodaPrzekladania('g', this.props.numerKolumny, this.state)
           this.setState({showGreen: false})
           }
 

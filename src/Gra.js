@@ -59,9 +59,31 @@ class Gra extends Component {
     this.panelGracza4 = React.createRef();
 }
 
-  przelozSymbol(symbol, kolor, kolumna, showRed, showBlack, showGreen){
+  przelozSymbol(wybranyKolor, kolumna, stanKolumny){
+    var wybranySymbol
+    switch(wybranyKolor)
+    {
+      case 'r': 
+      {
+        wybranySymbol=stanKolumny.redSymbol
+        break
+      }
+      case 'b': 
+      {
+        wybranySymbol=stanKolumny.blackSymbol 
+        break
+      }
+      case 'g': 
+      {
+        wybranySymbol=stanKolumny.greenSymbol
+        break
+      }
+      default:
+      {
+        break
+      }
+    }
 
-    console.log(gra.panelGracza1)
     //todo: sprawdzenie czy w ogóle można przełożyć klocek
     //funkcja zwraca 3 możliwe wartości: 0 - nie przekładać klocka, 1- przełożyć 1 klocek 2-przełożyć kolumne
     var wartośćZwrotna=0
@@ -70,7 +92,7 @@ class Gra extends Component {
     //2. klocek ten leży w kolumnie zawierającej 3 klocki. 
     
     //klocek leży w kolumnie zawierającej 3 klocki 
-    if (showRed&&showBlack&&showGreen)
+    if (stanKolumny.showRed&&stanKolumny.showBlack&&stanKolumny.showGreen)
     {
       var czyZnaleziono=false
       var temp=gra.panelGracza1.current.state.symbole
@@ -78,7 +100,7 @@ class Gra extends Component {
       {
         if(temp[i].length>0)
         {
-          if (temp[i][0].charAt(1)===symbol)
+          if (temp[i][0].charAt(1)===wybranySymbol)
           {
             czyZnaleziono=true
             break;
@@ -92,7 +114,7 @@ class Gra extends Component {
         {
           if(temp[i].length>0)
           {
-            if (temp[i][0].charAt(1)===symbol)
+            if (temp[i][0].charAt(1)===wybranySymbol)
             {
               czyZnaleziono=true
               break;
@@ -107,7 +129,7 @@ class Gra extends Component {
         {
           if(temp[i].length>0)
           {
-            if (temp[i][0].charAt(1)===symbol)
+            if (temp[i][0].charAt(1)===wybranySymbol)
             {
               czyZnaleziono=true
               break;
@@ -122,7 +144,7 @@ class Gra extends Component {
         {
           if(temp[i].length>0)
           {
-            if (temp[i][0].charAt(1)===symbol)
+            if (temp[i][0].charAt(1)===wybranySymbol)
             {
               czyZnaleziono=true
               break;
@@ -136,8 +158,58 @@ class Gra extends Component {
       }
     }
 
+    //druga zasada: Możesz wziąć całą kolumnę (a w kolumnie mogą leżeć 2 lub 3 klocki):
+    //- jeśli masz już wszystkie symbole leżące w tej kolumnie
+    //- lub jeśli dokładnie jeden klocek w tej kolumnie ma symbol, którego nie masz. 
+    switch(gra.state.player)
+    {
+      case 1: 
+      {
+
+        break
+      }
+      case 2: 
+      {
+        break
+      }
+      case 3: 
+      {
+        break
+      }
+      case 4: 
+      {
+        break
+      }
+      default:
+      {
+        break
+      }
+    }
+
     //dodawanie klocka do tabeli
-    var klocek=kolor+symbol
+    var klocek
+    switch(wybranyKolor)
+    {
+      case 'r': 
+      {
+        klocek='r'+stanKolumny.redSymbol
+        break
+      }
+      case 'b': 
+      {
+        klocek='b'+stanKolumny.blackSymbol
+        break
+      }
+      case 'g': 
+      {
+        klocek='g'+stanKolumny.greenSymbol
+        break
+      }
+      default:
+      {
+        break
+      }
+    }
     var aktualny=gra.state.ostatniKlocek;
     switch(gra.state.player)
     {
