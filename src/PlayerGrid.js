@@ -21,16 +21,16 @@ class PlayerGrid extends Component {
     //start oznacza, że gra jest wczytywana, a więc stan jest ustawiany za pomocą =, a nie setState
     componentWillReceiveProps(props, start=0)
     {
-      if (props.symbole.length>0)
+      for (var j=0;j<props.symbole.length;j++)
       {
-        for (var i=0; i<props.symbole.length; i++)
+        if (props.symbole[j].length>0)
         {
           //kod ascii aktualnego symbolu
-          var indeks=props.symbole[i].charCodeAt(1)-65
-          if (!this.state.symbole[indeks].includes(props.symbole[i]))
+          var indeks=props.symbole[j].charCodeAt(1)-65
+          if (!this.state.symbole[indeks].includes(props.symbole[j]))
           {
             var stan=this.state.symbole
-            stan[indeks].push(props.symbole[i])
+            stan[indeks].push(props.symbole[j])
             if (start)
             {
               this.state.symbole=stan
@@ -82,7 +82,6 @@ class PlayerGrid extends Component {
   render() {
 
     var klocki=[]
-
     for (var i=0;i<this.state.symbole.length;i++)
     {
       klocki.push(

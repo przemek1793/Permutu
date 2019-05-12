@@ -59,7 +59,6 @@ class GridColumn extends Component {
 
         //metoda przekładania będzie zwracała informacje co przełożyć:1)nic 2)1klocek 3)kolumne
           zabierzRed = () => {
-            console.log(this.state)
             var zwrot=this.props.metodaPrzekladania('r', this.props.numerKolumny, this.state)
             if (zwrot===1)
             {

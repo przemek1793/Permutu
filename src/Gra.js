@@ -29,7 +29,7 @@ class Gra extends Component {
       gracz2 = [];
       gracz3 = [];
       gracz4 = [];
-      var ostatni1="",ostatni2="",ostatni3="",ostatni4="";
+      var ostatni1=["","",""],ostatni2=["","",""],ostatni3=["","",""],ostatni4=["","",""];
       this.state.ostatniKlocek.push (ostatni1,ostatni2,ostatni3,ostatni4)
     }
     else
@@ -257,77 +257,262 @@ class Gra extends Component {
    
 
     //dodawanie klocka do tabeli
-    var klocek
-    switch(wybranyKolor)
+    if (wartośćZwrotna===1)
     {
-      case 'r': 
+      var klocek
+      switch(wybranyKolor)
       {
-        klocek='r'+stanKolumny.redSymbol
-        break
+        case 'r': 
+        {
+          klocek='r'+stanKolumny.redSymbol
+          break
+        }
+        case 'b': 
+        {
+          klocek='b'+stanKolumny.blackSymbol
+          break
+        }
+        case 'g': 
+        {
+          klocek='g'+stanKolumny.greenSymbol
+          break
+        }
+        default:
+        {
+          break
+        }
       }
-      case 'b': 
+      var aktualny=gra.state.ostatniKlocek;
+      switch(gra.state.player)
       {
-        klocek='b'+stanKolumny.blackSymbol
-        break
-      }
-      case 'g': 
-      {
-        klocek='g'+stanKolumny.greenSymbol
-        break
-      }
-      default:
-      {
-        break
+        case 1: 
+        {
+          aktualny[0][0]=klocek+kolumna
+          aktualny[0][1]=""
+          aktualny[0][2]=""
+          gra.setState({ ostatniKlocek: aktualny }) 
+          gracz1.push(klocek)
+          break
+        }
+        case 2: 
+        {
+          aktualny[1][0]=klocek+kolumna
+          aktualny[1][1]=""
+          aktualny[1][2]=""
+          gra.setState({ ostatniKlocek: aktualny }) 
+          gracz2.push(klocek)
+          break
+        }
+        case 3: 
+        {
+          aktualny[2][0]=klocek+kolumna
+          aktualny[2][1]=""
+          aktualny[2][2]=""
+          gra.setState({ ostatniKlocek: aktualny }) 
+          gracz3.push(klocek)
+          break
+        }
+        case 4: 
+        {
+          aktualny[3][0]=klocek+kolumna
+          aktualny[3][1]=""
+          aktualny[3][2]=""
+          gra.setState({ ostatniKlocek: aktualny }) 
+          gracz4.push(klocek)
+          break
+        }
+        default:
+        {
+          break
+        }
       }
     }
-    var aktualny=gra.state.ostatniKlocek;
-    switch(gra.state.player)
+
+    if (wartośćZwrotna===2)
     {
-      case 1: 
+      var aktualny=gra.state.ostatniKlocek;
+      switch(gra.state.player)
       {
-        gracz1.push(klocek)
-        aktualny[0]=klocek+kolumna
-        gra.setState({ ostatniKlocek: aktualny }) 
-        break
-      }
-      case 2: 
-      {
-        gracz2.push(klocek)
-        aktualny[1]=klocek+kolumna
-        gra.setState({ ostatniKlocek: aktualny }) 
-        break
-      }
-      case 3: 
-      {
-        gracz3.push(klocek)
-        aktualny[2]=klocek+kolumna
-        gra.setState({ ostatniKlocek: aktualny }) 
-        break
-      }
-      case 4: 
-      {
-        gracz4.push(klocek)
-        aktualny[3]=klocek+kolumna
-        gra.setState({ ostatniKlocek: aktualny }) 
-        break
-      }
-      default:
-      {
-        break
+        case 1: 
+        {
+          if (stanKolumny.showRed)
+          {
+            aktualny[0][0]="r"+stanKolumny.redSymbol+kolumna
+          }
+          else
+          {
+            aktualny[0][0]=""
+          }
+          if (stanKolumny.showBlack)
+          {
+            aktualny[0][1]="b"+stanKolumny.blackSymbol+kolumna
+          }
+          else
+          {
+            aktualny[0][1]=""
+          }
+          if (stanKolumny.showGreen)
+          {
+            aktualny[0][2]="g"+stanKolumny.greenSymbol+kolumna
+          }
+          else
+          {
+            aktualny[0][2]=""
+          }
+          for (var i=0;i<3;i++)
+          {
+            if (aktualny[0][i]!=="")
+            {
+              if (kolumna<10)
+              {
+                gracz1.push(aktualny[0][i].slice(0,-1))
+              }
+              else
+              {
+                gracz1.push(aktualny[0][i].slice(0,-2))
+              }
+            }
+          }
+          gra.setState({ ostatniKlocek: aktualny }) 
+          break
+        }
+        case 2: 
+        {
+          if (stanKolumny.showRed)
+          {
+            aktualny[1][0]="r"+stanKolumny.redSymbol+kolumna
+          }
+          else
+          {
+            aktualny[1][0]=""
+          }
+          if (stanKolumny.showBlack)
+          {
+            aktualny[1][1]="b"+stanKolumny.blackSymbol+kolumna
+          }
+          else
+          {
+            aktualny[1][1]=""
+          }
+          if (stanKolumny.showGreen)
+          {
+            aktualny[1][2]="g"+stanKolumny.greenSymbol+kolumna
+          }
+          for (var i=0;i<3;i++)
+          {
+            if (aktualny[1][i]!=="")
+            {
+              if (kolumna<10)
+              {
+                gracz2.push(aktualny[1][i].slice(0,-1))
+              }
+              else
+              {
+                gracz2.push(aktualny[1][i].slice(0,-2))
+              }
+            }
+          }
+          gra.setState({ ostatniKlocek: aktualny }) 
+          break
+        }
+        case 3: 
+        {
+          if (stanKolumny.showRed)
+          {
+            aktualny[2][0]="r"+stanKolumny.redSymbol+kolumna
+          }
+          else
+          {
+            aktualny[2][0]=""
+          }
+          if (stanKolumny.showBlack)
+          {
+            aktualny[2][1]="b"+stanKolumny.blackSymbol+kolumna
+          }
+          else
+          {
+            aktualny[2][1]=""
+          }
+          if (stanKolumny.showGreen)
+          {
+            aktualny[2][2]="g"+stanKolumny.greenSymbol+kolumna
+          }
+          for (var i=0;i<3;i++)
+          {
+            if (aktualny[2][i]!=="")
+            {
+              if (kolumna<10)
+              {
+                gracz3.push(aktualny[2][i].slice(0,-1))
+              }
+              else
+              {
+                gracz3.push(aktualny[2][i].slice(0,-2))
+              }
+            }
+          }
+          gra.setState({ ostatniKlocek: aktualny }) 
+          break
+        }
+        case 4: 
+        {
+          if (stanKolumny.showRed)
+          {
+            aktualny[3][0]="r"+stanKolumny.redSymbol+kolumna
+          }
+          else
+          {
+            aktualny[3][0]=""
+          }
+          if (stanKolumny.showBlack)
+          {
+            aktualny[3][1]="b"+stanKolumny.blackSymbol+kolumna
+          }
+          else
+          {
+            aktualny[3][1]=""
+          }
+          if (stanKolumny.showGreen)
+          {
+            aktualny[3][2]="g"+stanKolumny.greenSymbol+kolumna
+          }
+          for (var i=0;i<3;i++)
+          {
+            if (aktualny[3][i]!=="")
+            {
+              if (kolumna<10)
+              {
+                gracz4.push(aktualny[3][i].slice(0,-1))
+              }
+              else
+              {
+                gracz4.push(aktualny[3][i].slice(0,-2))
+              }
+            }
+          }
+          gra.setState({ ostatniKlocek: aktualny }) 
+          break
+        }
+        default:
+        {
+          break
+        }
       }
     }
 
     //ustawienie w stanie czyja jest tura
     //przerobić potem żeby == było równe liczbie graczy
-    if (gra.state.player===4)
+    if (wartośćZwrotna>0)
     {
-      gra.setState({ player: 1 }) 
+      if (gra.state.player===4)
+      {
+        gra.setState({ player: 1 }) 
+      }
+      else
+      {
+        gra.setState({player: ++gra.state.player}) 
+      }
     }
-    else
-    {
-      gra.setState({player: ++gra.state.player}) 
-    }
-    console.log(wartośćZwrotna)
     return wartośćZwrotna
   }
 
@@ -336,7 +521,6 @@ class Gra extends Component {
     var zapis={
       dane:[]
     }
-    //console.log(this.plansza.current.kolumny.current);
     zapis.dane.push({player1:gracz1, player2:gracz2, player3:gracz3, player4:gracz4, poprzednieRuchy: gra.state.ostatniKlocek, tura:gra.state.player});//, aktualneUstawienie:plansza
     var kolumny=[];
     for (var i=1;i<27;i++)
@@ -391,41 +575,41 @@ class Gra extends Component {
     var ostatniRuch=[]
     for (var i=0;i<4;i++)
     {
+      var czy2cyfrowaKolumna
       ostatniRuch.push(
       <li key={"Stan-tekst"+(i+1)} className="Stan-tekst">
         Ostatni ruch gracza {i+1}
       </li>)
-      if (this.state.ostatniKlocek[i]!=="")
+      //mogą być max 3 klocki zabrane w turze
+      for (var j=0;j<3;j++)
       {
+        if (this.state.ostatniKlocek[i][j]!=="")
+        {
         //czy numer kolumny jest 1 czy 2 cyfrowy
-        if (this.state.ostatniKlocek[i].length===3)
-        {
-         ostatniRuch.push(
-          <li key={"symbol"+(i+1)}>
-            <img src={require('./symbole/'+this.state.ostatniKlocek[i].slice(0,-1)+'.png')} alt={this.state.ostatniKlocek[i].slice(0,-1)}/>
-          </li>
-         )
-         ostatniRuch.push(
-           <li key={"kolumna"+(i+1)} className="Stan-tekst">
-              w kolumnie {this.state.ostatniKlocek[i].slice(-1)}
+          if (this.state.ostatniKlocek[i][j].length===3)
+          {
+            czy2cyfrowaKolumna=false
+            ostatniRuch.push(
+            <li key={"symbol"+(i+1)+j}>
+              <img src={require('./symbole/'+this.state.ostatniKlocek[i][j].slice(0,-1)+'.png')} alt={this.state.ostatniKlocek[i][j].slice(0,-1)}/>
             </li>
-         )
-        }
-      
-        else
-        {
-          ostatniRuch.push(
-            <li key={"symbol"+(i+1)}>
-              <img src={require('./symbole/'+this.state.ostatniKlocek[i].slice(0,-2)+'.png')} alt={this.state.ostatniKlocek[i].slice(0,-2)}/>
-            </li>
-           )
-           ostatniRuch.push(
-             <li key={"kolumna"+(i+1)} className="Stan-tekst">
-                w kolumnie {this.state.ostatniKlocek[i].slice(-2)}
+            )
+          }
+          else
+          {
+            czy2cyfrowaKolumna=true
+            ostatniRuch.push(
+              <li key={"symbol"+(i+1)+j}>
+                <img src={require('./symbole/'+this.state.ostatniKlocek[i][j].slice(0,-2)+'.png')} alt={this.state.ostatniKlocek[i][j].slice(0,-2)}/>
               </li>
-           )
+            )
+          }
         }
-     }
+      } 
+      ostatniRuch.push(
+      <li key={"kolumna"+(i+1)} className="Stan-tekst">
+        w kolumnie {this.state.ostatniKlocek[i][0].slice(-1-czy2cyfrowaKolumna)}
+      </li> )
     }
     var stanPlanszy=[] //pusty przy nowej grze
     if (this.props.location.state!==undefined) //gra jest wczytana
