@@ -57,20 +57,21 @@ class GridColumn extends Component {
         
       }
 
-        //trzeba zrobić żeby wywoływało funkcje przekładającą u rodzica i będzie mu przekazywać co tam trzeba ze state
+        //metoda przekładania będzie zwracała informacje co przełożyć:1)nic 2)1klocek 3)kolumne
           zabierzRed = () => {
-             this.setState({showRed: false})
-             this.props.metodaPrzekladania(this.state.redSymbol, 'r', this.props.numerKolumny)
+            this.props.metodaPrzekladania(this.state.redSymbol, 'r', this.props.numerKolumny, this.state.showRed, this.state.showBlack, this.state.showGreen)
+            this.setState({showRed: false})
           }
 
           zabierzBlack = () => {
-               this.setState({showBlack: false})
-               this.props.metodaPrzekladania(this.state.blackSymbol, 'b', this.props.numerKolumny)
+            this.props.metodaPrzekladania(this.state.blackSymbol, 'b', this.props.numerKolumny, this.state.showRed, this.state.showBlack, this.state.showGreen)
+            this.setState({showBlack: false})
+               
            }
 
          zabierzGreen= () => {
-             this.setState({showGreen: false})
-             this.props.metodaPrzekladania(this.state.greenSymbol, 'g', this.props.numerKolumny)
+          this.props.metodaPrzekladania(this.state.greenSymbol, 'g', this.props.numerKolumny, this.state.showRed, this.state.showBlack, this.state.showGreen)
+          this.setState({showGreen: false})
           }
 
   render() {

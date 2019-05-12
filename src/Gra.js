@@ -53,9 +53,88 @@ class Gra extends Component {
       }
     }
     this.plansza = React.createRef();
+    this.panelGracza1 = React.createRef();
+    this.panelGracza2 = React.createRef();
+    this.panelGracza3 = React.createRef();
+    this.panelGracza4 = React.createRef();
 }
 
-  przelozSymbol(symbol, kolor, kolumna){
+  przelozSymbol(symbol, kolor, kolumna, showRed, showBlack, showGreen){
+
+    console.log(gra.panelGracza1)
+    //todo: sprawdzenie czy w ogóle można przełożyć klocek
+    //funkcja zwraca 3 możliwe wartości: 0 - nie przekładać klocka, 1- przełożyć 1 klocek 2-przełożyć kolumne
+    var wartośćZwrotna=0
+    //pierwsza zasada: Możesz wziąć dokładnie jeden klocek, jeśli spełnia on dwa warunki:
+    //1. ani Ty ani przeciwnik nie ma jeszcze klocka z takim symbolem,
+    //2. klocek ten leży w kolumnie zawierającej 3 klocki. 
+    
+    //klocek leży w kolumnie zawierającej 3 klocki 
+    if (showRed&&showBlack&&showGreen)
+    {
+      var czyZnaleziono=false
+      var temp=gra.panelGracza1.current.state.symbole
+      for (var i=0; i<temp.length;i++)
+      {
+        if(temp[i].length>0)
+        {
+          if (temp[i][0].charAt(1)===symbol)
+          {
+            czyZnaleziono=true
+            break;
+          }
+        }
+      }
+      if (!czyZnaleziono)
+      {
+        temp=gra.panelGracza2.current.state.symbole
+        for (var i=0; i<temp.length;i++)
+        {
+          if(temp[i].length>0)
+          {
+            if (temp[i][0].charAt(1)===symbol)
+            {
+              czyZnaleziono=true
+              break;
+            }
+          }
+        }
+      }
+      if (!czyZnaleziono)
+      {
+        temp=gra.panelGracza3.current.state.symbole
+        for (var i=0; i<temp.length;i++)
+        {
+          if(temp[i].length>0)
+          {
+            if (temp[i][0].charAt(1)===symbol)
+            {
+              czyZnaleziono=true
+              break;
+            }
+          }
+        }
+      }
+      if (!czyZnaleziono)
+      {
+        temp=gra.panelGracza4.current.state.symbole
+        for (var i=0; i<temp.length;i++)
+        {
+          if(temp[i].length>0)
+          {
+            if (temp[i][0].charAt(1)===symbol)
+            {
+              czyZnaleziono=true
+              break;
+            }
+          }
+        }
+      }
+      if (!czyZnaleziono)
+      {
+        wartośćZwrotna=1
+      }
+    }
 
     //dodawanie klocka do tabeli
     var klocek=kolor+symbol
@@ -106,6 +185,7 @@ class Gra extends Component {
     {
       gra.setState({player: ++gra.state.player}) 
     }
+    console.log(wartośćZwrotna)
   }
 
   zapiszGre()
@@ -219,19 +299,19 @@ class Gra extends Component {
         <p className="Gracz">
             Gracz 1
         </p>
-        <PlayerGrid player={1} symbole={gracz1}></PlayerGrid>
+        <PlayerGrid player={1} symbole={gracz1} ref={this.panelGracza1}></PlayerGrid>
         <p className="Gracz">
             Gracz 2
         </p>
-        <PlayerGrid player={2} symbole={gracz2}></PlayerGrid>
+        <PlayerGrid player={2} symbole={gracz2} ref={this.panelGracza2}></PlayerGrid>
         <p className="Gracz">
             Gracz 3
         </p>
-        <PlayerGrid player={3} symbole={gracz3}></PlayerGrid>
+        <PlayerGrid player={3} symbole={gracz3} ref={this.panelGracza3}></PlayerGrid>
         <p className="Gracz">
             Gracz 4
         </p>
-        <PlayerGrid player={4} symbole={gracz4}></PlayerGrid>
+        <PlayerGrid player={4} symbole={gracz4} ref={this.panelGracza4}></PlayerGrid>
         <div className="Stan">
           {ostatniRuch}
         </div>
