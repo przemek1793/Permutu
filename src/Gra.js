@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter} from "react-router-dom";
 import './Gra.css';
 import GameGrid from "./GameGrid"
 import PlayerGrid from "./PlayerGrid"
@@ -13,10 +13,9 @@ var gra;
 
 
 class Gra extends Component {
-
+//error handling przy wczytywaniu złego jsona
   constructor(props) {
     super(props);
-    console.log(this)
     if (props.location.state===undefined)
     {
       //tura 1 gracza
@@ -35,15 +34,23 @@ class Gra extends Component {
     }
     else
     {
-      this.state = { 
-        player: props.location.state.dane[0].tura, 
-        ostatniKlocek: props.location.state.dane[0].poprzednieRuchy,
-      };
-  
-      gracz1 = props.location.state.dane[0].player1;
-      gracz2 = props.location.state.dane[0].player2;
-      gracz3 = props.location.state.dane[0].player3;
-      gracz4 = props.location.state.dane[0].player4;
+      try 
+      {
+        this.state = { 
+          player: props.location.state.dane[0].tura, 
+          ostatniKlocek: props.location.state.dane[0].poprzednieRuchy,
+        };
+        gracz1 = props.location.state.dane[0].player1;
+        gracz2 = props.location.state.dane[0].player2;
+        gracz3 = props.location.state.dane[0].player3;
+        gracz4 = props.location.state.dane[0].player4;
+      } 
+      catch (e) 
+      {
+        this.state = { 
+          hasError:true
+        };
+      }
     }
     this.plansza = React.createRef();
 }
@@ -148,6 +155,15 @@ class Gra extends Component {
   }
 
   render() {
+    if (this.state.hasError)
+    {
+      return <div className="Gra">
+        <h1 className="Error">Wczytano niepoprawny plik.</h1>
+        <Button color="light" size="lg" >
+            <NavLink to="/Menu" style={{textDecoration: 'none', color:'black' }}>Powrót do menu</NavLink>
+        </Button>
+      </div>
+    }
     gra=this;
     var ostatniRuch=[]
     for (var i=0;i<4;i++)
@@ -220,12 +236,12 @@ class Gra extends Component {
           {ostatniRuch}
         </div>
         <Button color="light" size="lg" style={{textDecoration: 'none', color:'black' }}  onClick={() => {this.zapiszGre()}}>Zapisz grę</Button>
-          <Button color="light" size="lg" >
-              <NavLink to="/Menu" style={{textDecoration: 'none', color:'black' }}>Powrót do menu</NavLink>
-          </Button>
+        <Button color="light" size="lg" >
+            <NavLink to="/Menu" style={{textDecoration: 'none', color:'black' }}>Powrót do menu</NavLink>
+        </Button>
         </div>
     );
   }
 }
 
-export default Gra;
+export default withRouter(Gra);

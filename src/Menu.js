@@ -28,13 +28,19 @@ class Menu extends Component {
     const dialog = window.require('electron').remote.dialog
     var file = dialog.showOpenDialog()
     const fs = window.require('fs');
-    var zapis = JSON.parse(fs.readFileSync(file[0], 'utf8'));
-    console.log(zapis);
-    menu.props.history.push(
+    try 
     {
-      pathname: "/Gra",
-      state: zapis
-    })
+      var zapis = JSON.parse(fs.readFileSync(file[0], 'utf8'));
+      menu.props.history.push(
+      {
+        pathname: "/Gra",
+        state: zapis
+      })
+    } 
+    catch (e) 
+    {
+      alert("Niepoprawny plik")
+    }
   }
 
   render() {

@@ -31,6 +31,15 @@
     color: white;
   }
 
+  .Error
+  {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    font-size: 3vh;
+    color: white;
+  }
+
   .Stan {
     text-align: center;
     align-items: center;
