@@ -86,104 +86,10 @@ class Gra extends Component {
     }
 
     //funkcja zwraca 3 możliwe wartości: 0 - nie przekładać klocka, 1- przełożyć 1 klocek 2-przełożyć kolumne
-    var wartośćZwrotna=gra.pierwszaZasada(stanKolumny, wybranySymbol)
-
-
-    //druga zasada: Możesz wziąć całą kolumnę (a w kolumnie mogą leżeć 2 lub 3 klocki):
-    //- jeśli masz już wszystkie symbole leżące w tej kolumnie
-    //- lub jeśli dokładnie jeden klocek w tej kolumnie ma symbol, którego nie masz. 
-    var ileBrakuje=0
-    switch(gra.state.player)
+    var wartośćZwrotna=gra.drugaZasada(stanKolumny)
+    if (wartośćZwrotna!==2)
     {
-      case 1: 
-      {
-        var temp=gra.panelGracza1.current.state.symbole
-        break
-      }
-      case 2: 
-      {
-        temp=gra.panelGracza2.current.state.symbole
-        break
-      }
-      case 3: 
-      {
-        temp=gra.panelGracza3.current.state.symbole
-        break
-      }
-      case 4: 
-      {
-        temp=gra.panelGracza4.current.state.symbole
-        break
-      }
-      default:
-      {
-        break
-      }
-    }
-    //sprawdzenie czy są przynajmniej 2 klocki w kolumnie
-    if (stanKolumny.showRed+stanKolumny.showBlack+stanKolumny.showGreen>1)
-    {
-      if (stanKolumny.showRed)
-      {
-        var czyZnaleziono=false
-        for (var i=0; i<temp.length;i++)
-        {
-          if(temp[i].length>0)
-          {
-            if (temp[i][0].charAt(1)===stanKolumny.redSymbol)
-            {
-              czyZnaleziono=true
-              break;
-            }
-          }
-        }
-        if (!czyZnaleziono)
-        {
-          ileBrakuje++
-        }
-      }
-      if (stanKolumny.showBlack)
-      {
-        czyZnaleziono=false
-        for (i=0; i<temp.length;i++)
-        {
-          if(temp[i].length>0)
-          {
-            if (temp[i][0].charAt(1)===stanKolumny.blackSymbol)
-            {
-              czyZnaleziono=true
-              break;
-            }
-          }
-        }
-        if (!czyZnaleziono)
-        {
-          ileBrakuje++
-        }
-      }
-      if (stanKolumny.showGreen)
-      {
-        czyZnaleziono=false
-        for (i=0; i<temp.length;i++)
-        {
-          if(temp[i].length>0)
-          {
-            if (temp[i][0].charAt(1)===stanKolumny.greenSymbol)
-            {
-              czyZnaleziono=true
-              break;
-            }
-          }
-        }
-        if (!czyZnaleziono)
-        {
-          ileBrakuje++
-        }
-      }
-      if (ileBrakuje<2)
-      {
-        wartośćZwrotna=2
-      }
+      wartośćZwrotna=gra.pierwszaZasada(stanKolumny, wybranySymbol)
     }
    
 
@@ -290,7 +196,7 @@ class Gra extends Component {
           {
             aktualny[0][2]=""
           }
-          for (i=0;i<3;i++)
+          for (var i=0;i<3;i++)
           {
             if (aktualny[0][i]!=="")
             {
@@ -503,6 +409,108 @@ class Gra extends Component {
       wartoscZwrotna=1
     }
     return wartoscZwrotna;
+  }
+
+  //druga zasada: Możesz wziąć całą kolumnę (a w kolumnie mogą leżeć 2 lub 3 klocki):
+  //- jeśli masz już wszystkie symbole leżące w tej kolumnie
+  //- lub jeśli dokładnie jeden klocek w tej kolumnie ma symbol, którego nie masz. 
+  drugaZasada(stanKolumny)
+  {
+    var wartoscZwrotna=0
+    var ileBrakuje=0
+    switch(gra.state.player)
+    {
+      case 1: 
+      {
+        var temp=gra.panelGracza1.current.state.symbole
+        break
+      }
+      case 2: 
+      {
+        temp=gra.panelGracza2.current.state.symbole
+        break
+      }
+      case 3: 
+      {
+        temp=gra.panelGracza3.current.state.symbole
+        break
+      }
+      case 4: 
+      {
+        temp=gra.panelGracza4.current.state.symbole
+        break
+      }
+      default:
+      {
+        break
+      }
+    }
+    //sprawdzenie czy są przynajmniej 2 klocki w kolumnie
+    if (stanKolumny.showRed+stanKolumny.showBlack+stanKolumny.showGreen>1)
+    {
+      if (stanKolumny.showRed)
+      {
+        var czyZnaleziono=false
+        for (var i=0; i<temp.length;i++)
+        {
+          if(temp[i].length>0)
+          {
+            if (temp[i][0].charAt(1)===stanKolumny.redSymbol)
+            {
+              czyZnaleziono=true
+              break;
+            }
+          }
+        }
+        if (!czyZnaleziono)
+        {
+          ileBrakuje++
+        }
+      }
+      if (stanKolumny.showBlack)
+      {
+        czyZnaleziono=false
+        for (i=0; i<temp.length;i++)
+        {
+          if(temp[i].length>0)
+          {
+            if (temp[i][0].charAt(1)===stanKolumny.blackSymbol)
+            {
+              czyZnaleziono=true
+              break;
+            }
+          }
+        }
+        if (!czyZnaleziono)
+        {
+          ileBrakuje++
+        }
+      }
+      if (stanKolumny.showGreen)
+      {
+        czyZnaleziono=false
+        for (i=0; i<temp.length;i++)
+        {
+          if(temp[i].length>0)
+          {
+            if (temp[i][0].charAt(1)===stanKolumny.greenSymbol)
+            {
+              czyZnaleziono=true
+              break;
+            }
+          }
+        }
+        if (!czyZnaleziono)
+        {
+          ileBrakuje++
+        }
+      }
+      if (ileBrakuje<2)
+      {
+        wartoscZwrotna=2
+      }
+    }
+    return wartoscZwrotna
   }
 
   zapiszGre()
