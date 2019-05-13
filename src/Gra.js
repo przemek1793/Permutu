@@ -62,6 +62,25 @@ class Gra extends Component {
 
   //funkcja wywoływana po kliknięciu na klocek
   przelozSymbol(wybranyKolor, kolumna, stanKolumny){
+    //funkcja zwraca 3 możliwe wartości: 0 - nie przekładać klocka, 1- przełożyć 1 klocek 2-przełożyć kolumne
+    //na podstawie zwróconej wartości kolumna z klikniętym klockiem jest aktualizowana
+    var wartośćZwrotna=gra.drugaZasada(stanKolumny)
+    if (wartośćZwrotna!==2)
+    {
+      wartośćZwrotna=gra.pierwszaZasada(stanKolumny, wybranyKolor)
+    }
+
+    gra.aktualizujKlockiGraczy(wartośćZwrotna, stanKolumny, kolumna, wybranyKolor)
+    gra.aktualizujTure(wartośćZwrotna,4)
+    return wartośćZwrotna
+  }
+
+  //pierwsza zasada: Możesz wziąć dokładnie jeden klocek, jeśli spełnia on dwa warunki:
+  //1. ani Ty ani przeciwnik nie ma jeszcze klocka z takim symbolem,
+  //2. klocek ten leży w kolumnie zawierającej 3 klocki. 
+  //klocek leży w kolumnie zawierającej 3 klocki 
+  pierwszaZasada(stanKolumny, wybranyKolor)
+  {
     var wybranySymbol
     switch(wybranyKolor)
     {
@@ -85,26 +104,6 @@ class Gra extends Component {
         break
       }
     }
-
-    //funkcja zwraca 3 możliwe wartości: 0 - nie przekładać klocka, 1- przełożyć 1 klocek 2-przełożyć kolumne
-    //na podstawie zwróconej wartości kolumna z klikniętym klockiem jest aktualizowana
-    var wartośćZwrotna=gra.drugaZasada(stanKolumny)
-    if (wartośćZwrotna!==2)
-    {
-      wartośćZwrotna=gra.pierwszaZasada(stanKolumny, wybranySymbol)
-    }
-
-    gra.aktualizujKlockiGraczy(wartośćZwrotna, stanKolumny, kolumna, wybranyKolor)
-    gra.aktualizujTure(wartośćZwrotna,4)
-    return wartośćZwrotna
-  }
-
-  //pierwsza zasada: Możesz wziąć dokładnie jeden klocek, jeśli spełnia on dwa warunki:
-  //1. ani Ty ani przeciwnik nie ma jeszcze klocka z takim symbolem,
-  //2. klocek ten leży w kolumnie zawierającej 3 klocki. 
-  //klocek leży w kolumnie zawierającej 3 klocki 
-  pierwszaZasada(stanKolumny, wybranySymbol)
-  {
     var wartoscZwrotna=0
     if (stanKolumny.showRed&&stanKolumny.showBlack&&stanKolumny.showGreen)
     {
