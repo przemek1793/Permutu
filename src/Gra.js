@@ -538,12 +538,12 @@ class Gra extends Component {
         gra.strategia1Wolny()
         break;
       }
-      //case 4:
-      //{
+      case 4:
+      {
       //  console.log("4")
-      //  gra.strategia1Wolny()
-      //  break;
-      //}
+        gra.strategia1Wolny()
+        break;
+      }
       default:
       {
         break;
@@ -574,10 +574,22 @@ class Gra extends Component {
       }
       if (wartoscZwrotna!==0)
       {
-        gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[i].current,kolor)
+        if (wartoscZwrotna===1)
+        {
+          gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[i].current,kolor)
+        }
+        if (wartoscZwrotna===2)
+        {
+          gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[i].current,'r')
+          gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[i].current,'b')
+          gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[i].current,'g')
+        }
         break;
       }
     }
+  }
+
+  componentDidUpdate()  {
     gra.wybierzGracza()
   }
 
@@ -643,7 +655,7 @@ class Gra extends Component {
         <p className="Gracz">
             Obecnie ruch wykonuje gracz {this.state.player}
         </p>
-        <GameGrid metodaPrzekladania={this.przelozSymbol} wybierzGracza={this.wybierzGracza} ref={this.plansza}  stan={stanPlanszy}></GameGrid>
+        <GameGrid metodaPrzekladania={this.przelozSymbol} ref={this.plansza}  stan={stanPlanszy}></GameGrid>
         <p className="Gracz">
             Gracz 1
         </p>
@@ -664,6 +676,7 @@ class Gra extends Component {
           {ostatniRuch}
         </div>
         <Button color="light" size="lg" style={{textDecoration: 'none', color:'black' }}  onClick={() => {this.zapiszGre()}}>Zapisz grę</Button>
+        <Button color="light" size="lg" style={{textDecoration: 'none', color:'black' }}  onClick={() => {this.wybierzGracza()}}>Ruch przeciwnika</Button>
         <Button color="light" size="lg" >
             <NavLink to="/Menu" style={{textDecoration: 'none', color:'black' }}>Powrót do menu</NavLink>
         </Button>

@@ -63,12 +63,10 @@ class GridColumn extends Component {
             if (zwrot===1)
             {
               this.setState({showRed: false})
-              this.props.wybierzGracza()
             }
             if (zwrot===2)
             {
               this.setState({showRed: false,showBlack: false,showGreen: false})
-              this.props.wybierzGracza()
             }
           }
 
@@ -77,12 +75,10 @@ class GridColumn extends Component {
             if (zwrot===1)
             {
               this.setState({showBlack: false})
-              this.props.wybierzGracza()
             }
             if (zwrot===2)
             {
               this.setState({showRed: false,showBlack: false,showGreen: false})
-              this.props.wybierzGracza()
             }    
            }
 
@@ -91,12 +87,10 @@ class GridColumn extends Component {
             if (zwrot===1)
             {
               this.setState({showGreen: false})
-              this.props.wybierzGracza()
             }
             if (zwrot===2)
             {
               this.setState({showRed: false,showBlack: false,showGreen: false})
-              this.props.wybierzGracza()
             }
           }
 

@@ -16,7 +16,7 @@ class GameGrid extends Component {
       {
         stanKolumny=this.props.stan[i]
       }
-      children.push(<GridColumn key={i} metodaPrzekladania={this.props.metodaPrzekladania} wybierzGracza={this.props.wybierzGracza} numerKolumny={i} ref={this.kolumny[i]} stan={stanKolumny}></GridColumn>)
+      children.push(<GridColumn key={i} metodaPrzekladania={this.props.metodaPrzekladania} numerKolumny={i} ref={this.kolumny[i]} stan={stanKolumny}></GridColumn>)
     } 
     return (
       <GridList
