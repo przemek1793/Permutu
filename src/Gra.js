@@ -60,6 +60,7 @@ class Gra extends Component {
     this.panelGracza4 = React.createRef();
 }
 
+  //funkcja wywoływana po kliknięciu na klocek
   przelozSymbol(wybranyKolor, kolumna, stanKolumny){
     var wybranySymbol
     switch(wybranyKolor)
@@ -86,256 +87,14 @@ class Gra extends Component {
     }
 
     //funkcja zwraca 3 możliwe wartości: 0 - nie przekładać klocka, 1- przełożyć 1 klocek 2-przełożyć kolumne
+    //na podstawie zwróconej wartości kolumna z klikniętym klockiem jest aktualizowana
     var wartośćZwrotna=gra.drugaZasada(stanKolumny)
     if (wartośćZwrotna!==2)
     {
       wartośćZwrotna=gra.pierwszaZasada(stanKolumny, wybranySymbol)
     }
-   
 
-    //dodawanie klocka do tabeli
-    if (wartośćZwrotna===1)
-    {
-      var klocek
-      switch(wybranyKolor)
-      {
-        case 'r': 
-        {
-          klocek='r'+stanKolumny.redSymbol
-          break
-        }
-        case 'b': 
-        {
-          klocek='b'+stanKolumny.blackSymbol
-          break
-        }
-        case 'g': 
-        {
-          klocek='g'+stanKolumny.greenSymbol
-          break
-        }
-        default:
-        {
-          break
-        }
-      }
-      var aktualny=gra.state.ostatniKlocek;
-      switch(gra.state.player)
-      {
-        case 1: 
-        {
-          aktualny[0][0]=klocek+kolumna
-          aktualny[0][1]=""
-          aktualny[0][2]=""
-          gra.setState({ ostatniKlocek: aktualny }) 
-          gracz1.push(klocek)
-          break
-        }
-        case 2: 
-        {
-          aktualny[1][0]=klocek+kolumna
-          aktualny[1][1]=""
-          aktualny[1][2]=""
-          gra.setState({ ostatniKlocek: aktualny }) 
-          gracz2.push(klocek)
-          break
-        }
-        case 3: 
-        {
-          aktualny[2][0]=klocek+kolumna
-          aktualny[2][1]=""
-          aktualny[2][2]=""
-          gra.setState({ ostatniKlocek: aktualny }) 
-          gracz3.push(klocek)
-          break
-        }
-        case 4: 
-        {
-          aktualny[3][0]=klocek+kolumna
-          aktualny[3][1]=""
-          aktualny[3][2]=""
-          gra.setState({ ostatniKlocek: aktualny }) 
-          gracz4.push(klocek)
-          break
-        }
-        default:
-        {
-          break
-        }
-      }
-    }
-
-    if (wartośćZwrotna===2)
-    {
-      aktualny=gra.state.ostatniKlocek;
-      switch(gra.state.player)
-      {
-        case 1: 
-        {
-          if (stanKolumny.showRed)
-          {
-            aktualny[0][0]="r"+stanKolumny.redSymbol+kolumna
-          }
-          else
-          {
-            aktualny[0][0]=""
-          }
-          if (stanKolumny.showBlack)
-          {
-            aktualny[0][1]="b"+stanKolumny.blackSymbol+kolumna
-          }
-          else
-          {
-            aktualny[0][1]=""
-          }
-          if (stanKolumny.showGreen)
-          {
-            aktualny[0][2]="g"+stanKolumny.greenSymbol+kolumna
-          }
-          else
-          {
-            aktualny[0][2]=""
-          }
-          for (var i=0;i<3;i++)
-          {
-            if (aktualny[0][i]!=="")
-            {
-              if (kolumna<10)
-              {
-                gracz1.push(aktualny[0][i].slice(0,-1))
-              }
-              else
-              {
-                gracz1.push(aktualny[0][i].slice(0,-2))
-              }
-            }
-          }
-          gra.setState({ ostatniKlocek: aktualny }) 
-          break
-        }
-        case 2: 
-        {
-          if (stanKolumny.showRed)
-          {
-            aktualny[1][0]="r"+stanKolumny.redSymbol+kolumna
-          }
-          else
-          {
-            aktualny[1][0]=""
-          }
-          if (stanKolumny.showBlack)
-          {
-            aktualny[1][1]="b"+stanKolumny.blackSymbol+kolumna
-          }
-          else
-          {
-            aktualny[1][1]=""
-          }
-          if (stanKolumny.showGreen)
-          {
-            aktualny[1][2]="g"+stanKolumny.greenSymbol+kolumna
-          }
-          for (i=0;i<3;i++)
-          {
-            if (aktualny[1][i]!=="")
-            {
-              if (kolumna<10)
-              {
-                gracz2.push(aktualny[1][i].slice(0,-1))
-              }
-              else
-              {
-                gracz2.push(aktualny[1][i].slice(0,-2))
-              }
-            }
-          }
-          gra.setState({ ostatniKlocek: aktualny }) 
-          break
-        }
-        case 3: 
-        {
-          if (stanKolumny.showRed)
-          {
-            aktualny[2][0]="r"+stanKolumny.redSymbol+kolumna
-          }
-          else
-          {
-            aktualny[2][0]=""
-          }
-          if (stanKolumny.showBlack)
-          {
-            aktualny[2][1]="b"+stanKolumny.blackSymbol+kolumna
-          }
-          else
-          {
-            aktualny[2][1]=""
-          }
-          if (stanKolumny.showGreen)
-          {
-            aktualny[2][2]="g"+stanKolumny.greenSymbol+kolumna
-          }
-          for (i=0;i<3;i++)
-          {
-            if (aktualny[2][i]!=="")
-            {
-              if (kolumna<10)
-              {
-                gracz3.push(aktualny[2][i].slice(0,-1))
-              }
-              else
-              {
-                gracz3.push(aktualny[2][i].slice(0,-2))
-              }
-            }
-          }
-          gra.setState({ ostatniKlocek: aktualny }) 
-          break
-        }
-        case 4: 
-        {
-          if (stanKolumny.showRed)
-          {
-            aktualny[3][0]="r"+stanKolumny.redSymbol+kolumna
-          }
-          else
-          {
-            aktualny[3][0]=""
-          }
-          if (stanKolumny.showBlack)
-          {
-            aktualny[3][1]="b"+stanKolumny.blackSymbol+kolumna
-          }
-          else
-          {
-            aktualny[3][1]=""
-          }
-          if (stanKolumny.showGreen)
-          {
-            aktualny[3][2]="g"+stanKolumny.greenSymbol+kolumna
-          }
-          for (i=0;i<3;i++)
-          {
-            if (aktualny[3][i]!=="")
-            {
-              if (kolumna<10)
-              {
-                gracz4.push(aktualny[3][i].slice(0,-1))
-              }
-              else
-              {
-                gracz4.push(aktualny[3][i].slice(0,-2))
-              }
-            }
-          }
-          gra.setState({ ostatniKlocek: aktualny }) 
-          break
-        }
-        default:
-        {
-          break
-        }
-      }
-    }
+    gra.aktualizujKlockiGraczy(wartośćZwrotna, stanKolumny, kolumna, wybranyKolor)
 
     //ustawienie w stanie czyja jest tura
     //przerobić potem żeby == było równe liczbie graczy
@@ -511,6 +270,252 @@ class Gra extends Component {
       }
     }
     return wartoscZwrotna
+  }
+
+  aktualizujKlockiGraczy(czyPrzelozyc, stanKolumny, kolumna, wybranyKolor)
+  {
+    if (czyPrzelozyc===1)
+    {
+      var klocek
+      switch(wybranyKolor)
+      {
+        case 'r': 
+        {
+          klocek='r'+stanKolumny.redSymbol
+          break
+        }
+        case 'b': 
+        {
+          klocek='b'+stanKolumny.blackSymbol
+          break
+        }
+        case 'g': 
+        {
+          klocek='g'+stanKolumny.greenSymbol
+          break
+        }
+        default:
+        {
+          break
+        }
+      }
+      var aktualny=gra.state.ostatniKlocek;
+      switch(gra.state.player)
+      {
+        case 1: 
+        {
+          aktualny[0][0]=klocek+kolumna
+          aktualny[0][1]=""
+          aktualny[0][2]=""
+          gra.setState({ ostatniKlocek: aktualny }) 
+          gracz1.push(klocek)
+          break
+        }
+        case 2: 
+        {
+          aktualny[1][0]=klocek+kolumna
+          aktualny[1][1]=""
+          aktualny[1][2]=""
+          gra.setState({ ostatniKlocek: aktualny }) 
+          gracz2.push(klocek)
+          break
+        }
+        case 3: 
+        {
+          aktualny[2][0]=klocek+kolumna
+          aktualny[2][1]=""
+          aktualny[2][2]=""
+          gra.setState({ ostatniKlocek: aktualny }) 
+          gracz3.push(klocek)
+          break
+        }
+        case 4: 
+        {
+          aktualny[3][0]=klocek+kolumna
+          aktualny[3][1]=""
+          aktualny[3][2]=""
+          gra.setState({ ostatniKlocek: aktualny }) 
+          gracz4.push(klocek)
+          break
+        }
+        default:
+        {
+          break
+        }
+      }
+    }
+
+    if (czyPrzelozyc===2)
+    {
+      aktualny=gra.state.ostatniKlocek;
+      switch(gra.state.player)
+      {
+        case 1: 
+        {
+          if (stanKolumny.showRed)
+          {
+            aktualny[0][0]="r"+stanKolumny.redSymbol+kolumna
+          }
+          else
+          {
+            aktualny[0][0]=""
+          }
+          if (stanKolumny.showBlack)
+          {
+            aktualny[0][1]="b"+stanKolumny.blackSymbol+kolumna
+          }
+          else
+          {
+            aktualny[0][1]=""
+          }
+          if (stanKolumny.showGreen)
+          {
+            aktualny[0][2]="g"+stanKolumny.greenSymbol+kolumna
+          }
+          else
+          {
+            aktualny[0][2]=""
+          }
+          for (var i=0;i<3;i++)
+          {
+            if (aktualny[0][i]!=="")
+            {
+              if (kolumna<10)
+              {
+                gracz1.push(aktualny[0][i].slice(0,-1))
+              }
+              else
+              {
+                gracz1.push(aktualny[0][i].slice(0,-2))
+              }
+            }
+          }
+          gra.setState({ ostatniKlocek: aktualny }) 
+          break
+        }
+        case 2: 
+        {
+          if (stanKolumny.showRed)
+          {
+            aktualny[1][0]="r"+stanKolumny.redSymbol+kolumna
+          }
+          else
+          {
+            aktualny[1][0]=""
+          }
+          if (stanKolumny.showBlack)
+          {
+            aktualny[1][1]="b"+stanKolumny.blackSymbol+kolumna
+          }
+          else
+          {
+            aktualny[1][1]=""
+          }
+          if (stanKolumny.showGreen)
+          {
+            aktualny[1][2]="g"+stanKolumny.greenSymbol+kolumna
+          }
+          for (i=0;i<3;i++)
+          {
+            if (aktualny[1][i]!=="")
+            {
+              if (kolumna<10)
+              {
+                gracz2.push(aktualny[1][i].slice(0,-1))
+              }
+              else
+              {
+                gracz2.push(aktualny[1][i].slice(0,-2))
+              }
+            }
+          }
+          gra.setState({ ostatniKlocek: aktualny }) 
+          break
+        }
+        case 3: 
+        {
+          if (stanKolumny.showRed)
+          {
+            aktualny[2][0]="r"+stanKolumny.redSymbol+kolumna
+          }
+          else
+          {
+            aktualny[2][0]=""
+          }
+          if (stanKolumny.showBlack)
+          {
+            aktualny[2][1]="b"+stanKolumny.blackSymbol+kolumna
+          }
+          else
+          {
+            aktualny[2][1]=""
+          }
+          if (stanKolumny.showGreen)
+          {
+            aktualny[2][2]="g"+stanKolumny.greenSymbol+kolumna
+          }
+          for (i=0;i<3;i++)
+          {
+            if (aktualny[2][i]!=="")
+            {
+              if (kolumna<10)
+              {
+                gracz3.push(aktualny[2][i].slice(0,-1))
+              }
+              else
+              {
+                gracz3.push(aktualny[2][i].slice(0,-2))
+              }
+            }
+          }
+          gra.setState({ ostatniKlocek: aktualny }) 
+          break
+        }
+        case 4: 
+        {
+          if (stanKolumny.showRed)
+          {
+            aktualny[3][0]="r"+stanKolumny.redSymbol+kolumna
+          }
+          else
+          {
+            aktualny[3][0]=""
+          }
+          if (stanKolumny.showBlack)
+          {
+            aktualny[3][1]="b"+stanKolumny.blackSymbol+kolumna
+          }
+          else
+          {
+            aktualny[3][1]=""
+          }
+          if (stanKolumny.showGreen)
+          {
+            aktualny[3][2]="g"+stanKolumny.greenSymbol+kolumna
+          }
+          for (i=0;i<3;i++)
+          {
+            if (aktualny[3][i]!=="")
+            {
+              if (kolumna<10)
+              {
+                gracz4.push(aktualny[3][i].slice(0,-1))
+              }
+              else
+              {
+                gracz4.push(aktualny[3][i].slice(0,-2))
+              }
+            }
+          }
+          gra.setState({ ostatniKlocek: aktualny }) 
+          break
+        }
+        default:
+        {
+          break
+        }
+      }
+    }
   }
 
   zapiszGre()
