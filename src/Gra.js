@@ -13,9 +13,9 @@ var gra;
 
 
 class Gra extends Component {
-//error handling przy wczytywaniu złego jsona
   constructor(props) {
     super(props);
+    //nowa gra
     if (props.location.state===undefined)
     {
       //tura 1 gracza
@@ -32,6 +32,7 @@ class Gra extends Component {
       var ostatni1=["","",""],ostatni2=["","",""],ostatni3=["","",""],ostatni4=["","",""];
       this.state.ostatniKlocek.push (ostatni1,ostatni2,ostatni3,ostatni4)
     }
+    //wczytywanie gry
     else
     {
       try 
@@ -84,78 +85,9 @@ class Gra extends Component {
       }
     }
 
-    //todo: sprawdzenie czy w ogóle można przełożyć klocek
     //funkcja zwraca 3 możliwe wartości: 0 - nie przekładać klocka, 1- przełożyć 1 klocek 2-przełożyć kolumne
-    var wartośćZwrotna=0
-    //pierwsza zasada: Możesz wziąć dokładnie jeden klocek, jeśli spełnia on dwa warunki:
-    //1. ani Ty ani przeciwnik nie ma jeszcze klocka z takim symbolem,
-    //2. klocek ten leży w kolumnie zawierającej 3 klocki. 
-    //klocek leży w kolumnie zawierającej 3 klocki 
-    if (stanKolumny.showRed&&stanKolumny.showBlack&&stanKolumny.showGreen)
-    {
-      var czyZnaleziono=false
-      var temp=gra.panelGracza1.current.state.symbole
-      for (var i=0; i<temp.length;i++)
-      {
-        if(temp[i].length>0)
-        {
-          if (temp[i][0].charAt(1)===wybranySymbol)
-          {
-            czyZnaleziono=true
-            break;
-          }
-        }
-      }
-      if (!czyZnaleziono)
-      {
-        temp=gra.panelGracza2.current.state.symbole
-        for (i=0; i<temp.length;i++)
-        {
-          if(temp[i].length>0)
-          {
-            if (temp[i][0].charAt(1)===wybranySymbol)
-            {
-              czyZnaleziono=true
-              break;
-            }
-          }
-        }
-      }
-      if (!czyZnaleziono)
-      {
-        temp=gra.panelGracza3.current.state.symbole
-        for (i=0; i<temp.length;i++)
-        {
-          if(temp[i].length>0)
-          {
-            if (temp[i][0].charAt(1)===wybranySymbol)
-            {
-              czyZnaleziono=true
-              break;
-            }
-          }
-        }
-      }
-      if (!czyZnaleziono)
-      {
-        temp=gra.panelGracza4.current.state.symbole
-        for (i=0; i<temp.length;i++)
-        {
-          if(temp[i].length>0)
-          {
-            if (temp[i][0].charAt(1)===wybranySymbol)
-            {
-              czyZnaleziono=true
-              break;
-            }
-          }
-        }
-      }
-      if (!czyZnaleziono)
-      {
-        wartośćZwrotna=1
-      }
-    }
+    var wartośćZwrotna=gra.pierwszaZasada(stanKolumny, wybranySymbol)
+
 
     //druga zasada: Możesz wziąć całą kolumnę (a w kolumnie mogą leżeć 2 lub 3 klocki):
     //- jeśli masz już wszystkie symbole leżące w tej kolumnie
@@ -165,7 +97,7 @@ class Gra extends Component {
     {
       case 1: 
       {
-        temp=gra.panelGracza1.current.state.symbole
+        var temp=gra.panelGracza1.current.state.symbole
         break
       }
       case 2: 
@@ -193,8 +125,8 @@ class Gra extends Component {
     {
       if (stanKolumny.showRed)
       {
-        czyZnaleziono=false
-        for (i=0; i<temp.length;i++)
+        var czyZnaleziono=false
+        for (var i=0; i<temp.length;i++)
         {
           if(temp[i].length>0)
           {
@@ -513,6 +445,64 @@ class Gra extends Component {
       }
     }
     return wartośćZwrotna
+  }
+
+  //pierwsza zasada: Możesz wziąć dokładnie jeden klocek, jeśli spełnia on dwa warunki:
+  //1. ani Ty ani przeciwnik nie ma jeszcze klocka z takim symbolem,
+  //2. klocek ten leży w kolumnie zawierającej 3 klocki. 
+  //klocek leży w kolumnie zawierającej 3 klocki 
+  pierwszaZasada(stanKolumny, wybranySymbol)
+  {
+    var wartoscZwrotna=0
+    if (stanKolumny.showRed&&stanKolumny.showBlack&&stanKolumny.showGreen)
+    {
+      var temp=gra.panelGracza1.current.state.symbole
+      for (var i=0; i<temp.length;i++)
+      {
+        if(temp[i].length>0)
+        {
+          if (temp[i][0].charAt(1)===wybranySymbol)
+          {
+            return wartoscZwrotna
+          }
+        }
+      }
+      temp=gra.panelGracza2.current.state.symbole
+      for (i=0; i<temp.length;i++)
+      {
+        if(temp[i].length>0)
+        {
+          if (temp[i][0].charAt(1)===wybranySymbol)
+          {
+            return wartoscZwrotna
+          }
+        }
+      }
+      temp=gra.panelGracza3.current.state.symbole
+      for (i=0; i<temp.length;i++)
+      {
+        if(temp[i].length>0)
+        {
+          if (temp[i][0].charAt(1)===wybranySymbol)
+          {
+            return wartoscZwrotna
+          }
+        }
+      }
+      temp=gra.panelGracza4.current.state.symbole
+      for (i=0; i<temp.length;i++)
+      {
+        if(temp[i].length>0)
+        {
+          if (temp[i][0].charAt(1)===wybranySymbol)
+          {
+            return wartoscZwrotna
+          }
+        }
+      }
+      wartoscZwrotna=1
+    }
+    return wartoscZwrotna;
   }
 
   zapiszGre()
