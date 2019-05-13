@@ -261,6 +261,7 @@ class Gra extends Component {
   aktualizujKlockiGraczy(czyPrzelozyc, stanKolumny, kolumna, wybranyKolor)
   {
     var index=gra.state.player-1
+    var aktualny=gra.state.ostatniKlocek;
     if (czyPrzelozyc===1)
     {
       var klocek
@@ -286,11 +287,9 @@ class Gra extends Component {
           break
         }
       }
-      var aktualny=gra.state.ostatniKlocek;
       aktualny[index][0]=klocek+kolumna
       aktualny[index][1]=""
       aktualny[index][2]=""
-      gra.setState({ ostatniKlocek: aktualny }) 
       switch(gra.state.player)
       {
         case 1: 
@@ -322,7 +321,6 @@ class Gra extends Component {
 
     if (czyPrzelozyc===2)
     {
-      aktualny=gra.state.ostatniKlocek;
       if (stanKolumny.showRed)
       {
         aktualny[index][0]="r"+stanKolumny.redSymbol+kolumna
@@ -389,8 +387,8 @@ class Gra extends Component {
           }
         }
       }
-      gra.setState({ ostatniKlocek: aktualny }) 
     }
+    gra.setState({ ostatniKlocek: aktualny }) 
   }
 
   aktualizujTure(czyPrzelozono, iluGraczy)
