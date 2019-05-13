@@ -64,6 +64,37 @@ class Gra extends Component {
   przelozSymbol(wybranyKolor, kolumna, stanKolumny){
     //funkcja zwraca 3 możliwe wartości: 0 - nie przekładać klocka, 1- przełożyć 1 klocek 2-przełożyć kolumne
     //na podstawie zwróconej wartości kolumna z klikniętym klockiem jest aktualizowana
+
+    //sprawdzenie czy wybrany klocek nie jest już wzięty
+    var czyWziety=false
+    switch(wybranyKolor)
+    {
+      case 'r': 
+      {
+        czyWziety=!stanKolumny.showRed
+        break
+      }
+      case 'b': 
+      {
+        czyWziety=!stanKolumny.showBlack 
+        break
+      }
+      case 'g': 
+      {
+        czyWziety=!stanKolumny.showGreen
+        break
+      }
+      default:
+      {
+        break
+      }
+    }
+
+    if (czyWziety)
+    {
+      return 0
+    }
+
     var wartośćZwrotna=gra.drugaZasada(stanKolumny)
     if (wartośćZwrotna!==2)
     {
@@ -453,6 +484,18 @@ class Gra extends Component {
           alert("Gra została zapisana");
       });
   }); 
+  }
+
+  //Strategie
+
+  //1. Bierz pierwszą dostępną kolumnę od lewej, a w przypadku gdy nie ma takiej weź pierwszy wolny klocek od lewej
+  strategia1Wolny()
+  {
+    var wartoscZwrotna=0
+    while(wartoscZwrotna===0)
+    {
+      //gra.przelozSymbol(wybranyKolor, kolumna, stanKolumny)
+    }
   }
 
   render() {
