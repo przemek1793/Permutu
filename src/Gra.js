@@ -109,7 +109,7 @@ class Gra extends Component {
       if (!czyZnaleziono)
       {
         temp=gra.panelGracza2.current.state.symbole
-        for (var i=0; i<temp.length;i++)
+        for (i=0; i<temp.length;i++)
         {
           if(temp[i].length>0)
           {
@@ -124,7 +124,7 @@ class Gra extends Component {
       if (!czyZnaleziono)
       {
         temp=gra.panelGracza3.current.state.symbole
-        for (var i=0; i<temp.length;i++)
+        for (i=0; i<temp.length;i++)
         {
           if(temp[i].length>0)
           {
@@ -139,7 +139,7 @@ class Gra extends Component {
       if (!czyZnaleziono)
       {
         temp=gra.panelGracza4.current.state.symbole
-        for (var i=0; i<temp.length;i++)
+        for (i=0; i<temp.length;i++)
         {
           if(temp[i].length>0)
           {
@@ -161,7 +161,6 @@ class Gra extends Component {
     //- jeśli masz już wszystkie symbole leżące w tej kolumnie
     //- lub jeśli dokładnie jeden klocek w tej kolumnie ma symbol, którego nie masz. 
     var ileBrakuje=0
-    var temp
     switch(gra.state.player)
     {
       case 1: 
@@ -194,8 +193,8 @@ class Gra extends Component {
     {
       if (stanKolumny.showRed)
       {
-        var czyZnaleziono=false
-        for (var i=0; i<temp.length;i++)
+        czyZnaleziono=false
+        for (i=0; i<temp.length;i++)
         {
           if(temp[i].length>0)
           {
@@ -213,8 +212,8 @@ class Gra extends Component {
       }
       if (stanKolumny.showBlack)
       {
-        var czyZnaleziono=false
-        for (var i=0; i<temp.length;i++)
+        czyZnaleziono=false
+        for (i=0; i<temp.length;i++)
         {
           if(temp[i].length>0)
           {
@@ -232,8 +231,8 @@ class Gra extends Component {
       }
       if (stanKolumny.showGreen)
       {
-        var czyZnaleziono=false
-        for (var i=0; i<temp.length;i++)
+        czyZnaleziono=false
+        for (i=0; i<temp.length;i++)
         {
           if(temp[i].length>0)
           {
@@ -330,7 +329,7 @@ class Gra extends Component {
 
     if (wartośćZwrotna===2)
     {
-      var aktualny=gra.state.ostatniKlocek;
+      aktualny=gra.state.ostatniKlocek;
       switch(gra.state.player)
       {
         case 1: 
@@ -359,7 +358,7 @@ class Gra extends Component {
           {
             aktualny[0][2]=""
           }
-          for (var i=0;i<3;i++)
+          for (i=0;i<3;i++)
           {
             if (aktualny[0][i]!=="")
             {
@@ -398,7 +397,7 @@ class Gra extends Component {
           {
             aktualny[1][2]="g"+stanKolumny.greenSymbol+kolumna
           }
-          for (var i=0;i<3;i++)
+          for (i=0;i<3;i++)
           {
             if (aktualny[1][i]!=="")
             {
@@ -437,7 +436,7 @@ class Gra extends Component {
           {
             aktualny[2][2]="g"+stanKolumny.greenSymbol+kolumna
           }
-          for (var i=0;i<3;i++)
+          for (i=0;i<3;i++)
           {
             if (aktualny[2][i]!=="")
             {
@@ -476,7 +475,7 @@ class Gra extends Component {
           {
             aktualny[3][2]="g"+stanKolumny.greenSymbol+kolumna
           }
-          for (var i=0;i<3;i++)
+          for (i=0;i<3;i++)
           {
             if (aktualny[3][i]!=="")
             {
