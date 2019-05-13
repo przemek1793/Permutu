@@ -21,7 +21,7 @@ class Gra extends Component {
       //tura 1 gracza
       this.state = { 
       player: 1, 
-      ostatniKlocek: [],
+      ostatniKlocek: []
       };
 
       //czyszczenie tablic klocków graczy
@@ -92,6 +92,7 @@ class Gra extends Component {
 
     if (czyWziety)
     {
+      console.log("wziety")
       return 0
     }
 
@@ -103,6 +104,7 @@ class Gra extends Component {
 
     gra.aktualizujKlockiGraczy(wartośćZwrotna, stanKolumny, kolumna, wybranyKolor)
     gra.aktualizujTure(wartośćZwrotna,4)
+    console.log(wartośćZwrotna)
     return wartośćZwrotna
   }
 
@@ -194,33 +196,8 @@ class Gra extends Component {
   {
     var wartoscZwrotna=0
     var ileBrakuje=0
-    switch(gra.state.player)
-    {
-      case 1: 
-      {
-        var temp=gra.panelGracza1.current.state.symbole
-        break
-      }
-      case 2: 
-      {
-        temp=gra.panelGracza2.current.state.symbole
-        break
-      }
-      case 3: 
-      {
-        temp=gra.panelGracza3.current.state.symbole
-        break
-      }
-      case 4: 
-      {
-        temp=gra.panelGracza4.current.state.symbole
-        break
-      }
-      default:
-      {
-        break
-      }
-    }
+    var gracz=gra.wybierzStanGracza()
+    var temp=gracz.symbole
     //sprawdzenie czy są przynajmniej 2 klocki w kolumnie
     if (stanKolumny.showRed+stanKolumny.showBlack+stanKolumny.showGreen>1)
     {
@@ -486,17 +463,124 @@ class Gra extends Component {
   }); 
   }
 
-  //Strategie
+  wybierzStanGracza()
+  {
+    var panel
+    switch(gra.state.player)
+    {
+      case 1: 
+      {
+        panel=gra.panelGracza1.current.state
+        break
+      }
+      case 2: 
+      {
+        panel=gra.panelGracza2.current.state
+        break
+      }
+      case 3: 
+      {
+        panel=gra.panelGracza3.current.state
+        break
+      }
+      case 4: 
+      {
+        panel=gra.panelGracza4.current.state
+        break
+      }
+      default:
+      {
+        break
+      }
+    }
+    return panel
+  }
 
-  //1. Bierz pierwszą dostępną kolumnę od lewej, a w przypadku gdy nie ma takiej weź pierwszy wolny klocek od lewej
+  zdejmijKlocekZPlanszy(kolumna, kolor)
+  {
+    switch(kolor)
+    {
+      case 'r':
+      {
+        kolumna.setState({showRed: false})
+        break;
+      }
+      case 'b':
+      {
+        kolumna.setState({showBlack: false})
+        break;
+      }
+      case 'g':
+      {
+        kolumna.setState({showGreen: false})
+        break;
+      }
+      default:
+      {
+        break;
+      }
+    }
+  }
+
+  wybierzGracza()
+  {
+    switch(gra.state.player)
+    {
+      case 2:
+      {
+        //console.log("2")
+        gra.strategia1Wolny()
+        break;
+      }
+      case 3:
+      {
+        //console.log("3")
+        gra.strategia1Wolny()
+        break;
+      }
+      //case 4:
+      //{
+      //  console.log("4")
+      //  gra.strategia1Wolny()
+      //  break;
+      //}
+      default:
+      {
+        break;
+      }
+    }
+  }
+
+  //Strategie
+  //1. Weź pierwszy dostępny klocek od lewej
   strategia1Wolny()
   {
     var wartoscZwrotna=0
-    while(wartoscZwrotna===0)
+    var kolor
+    //sprawdź wszystkie kolumy
+    for (var i=1;i<27;i++)
     {
-      //gra.przelozSymbol(wybranyKolor, kolumna, stanKolumny)
+      wartoscZwrotna=gra.przelozSymbol('r', i, gra.plansza.current.kolumny[i].current.state,gra.plansza.current.kolumny[i].current)
+      kolor='r'
+      if (wartoscZwrotna===0)
+      {
+        wartoscZwrotna=gra.przelozSymbol('b', i, gra.plansza.current.kolumny[i].current.state,gra.plansza.current.kolumny[i].current)
+        kolor='b'
+      }
+      if (wartoscZwrotna===0)
+      {
+        wartoscZwrotna=gra.przelozSymbol('g', i, gra.plansza.current.kolumny[i].current.state,gra.plansza.current.kolumny[i].current)
+        kolor='g'
+      }
+      if (wartoscZwrotna!==0)
+      {
+        gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[i].current,kolor)
+        break;
+      }
     }
+    gra.wybierzGracza()
   }
+
 
   render() {
     if (this.state.hasError)
@@ -559,7 +643,7 @@ class Gra extends Component {
         <p className="Gracz">
             Obecnie ruch wykonuje gracz {this.state.player}
         </p>
-        <GameGrid metodaPrzekladania={this.przelozSymbol} ref={this.plansza}  stan={stanPlanszy}></GameGrid>
+        <GameGrid metodaPrzekladania={this.przelozSymbol} wybierzGracza={this.wybierzGracza} ref={this.plansza}  stan={stanPlanszy}></GameGrid>
         <p className="Gracz">
             Gracz 1
         </p>

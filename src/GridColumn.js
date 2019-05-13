@@ -59,38 +59,44 @@ class GridColumn extends Component {
 
         //metoda przekładania będzie zwracała informacje co przełożyć:1)nic 2)1klocek 3)kolumne
           zabierzRed = () => {
-            var zwrot=this.props.metodaPrzekladania('r', this.props.numerKolumny, this.state)
+            var zwrot=this.props.metodaPrzekladania('r', this.props.numerKolumny, this.state,this)
             if (zwrot===1)
             {
               this.setState({showRed: false})
+              this.props.wybierzGracza()
             }
             if (zwrot===2)
             {
               this.setState({showRed: false,showBlack: false,showGreen: false})
+              this.props.wybierzGracza()
             }
           }
 
           zabierzBlack = () => {
-            var zwrot=this.props.metodaPrzekladania('b', this.props.numerKolumny, this.state)
+            var zwrot=this.props.metodaPrzekladania('b', this.props.numerKolumny, this.state,this)
             if (zwrot===1)
             {
               this.setState({showBlack: false})
+              this.props.wybierzGracza()
             }
             if (zwrot===2)
             {
               this.setState({showRed: false,showBlack: false,showGreen: false})
+              this.props.wybierzGracza()
             }    
            }
 
          zabierzGreen= () => {
-            var zwrot=this.props.metodaPrzekladania('g', this.props.numerKolumny, this.state)
+            var zwrot=this.props.metodaPrzekladania('g', this.props.numerKolumny, this.state,this)
             if (zwrot===1)
             {
               this.setState({showGreen: false})
+              this.props.wybierzGracza()
             }
             if (zwrot===2)
             {
               this.setState({showRed: false,showBlack: false,showGreen: false})
+              this.props.wybierzGracza()
             }
           }
 
