@@ -95,20 +95,7 @@ class Gra extends Component {
     }
 
     gra.aktualizujKlockiGraczy(wartośćZwrotna, stanKolumny, kolumna, wybranyKolor)
-
-    //ustawienie w stanie czyja jest tura
-    //przerobić potem żeby == było równe liczbie graczy
-    if (wartośćZwrotna>0)
-    {
-      if (gra.state.player===4)
-      {
-        gra.setState({ player: 1 }) 
-      }
-      else
-      {
-        gra.setState({player: ++gra.state.player}) 
-      }
-    }
+    gra.aktualizujTure(wartośćZwrotna,4)
     return wartośćZwrotna
   }
 
@@ -514,6 +501,21 @@ class Gra extends Component {
         {
           break
         }
+      }
+    }
+  }
+
+  aktualizujTure(czyPrzelozono, iluGraczy)
+  {
+    if (czyPrzelozono>0)
+    {
+      if (gra.state.player===iluGraczy)
+      {
+        gra.setState({ player: 1 }) 
+      }
+      else
+      {
+        gra.setState({player: ++gra.state.player}) 
       }
     }
   }
