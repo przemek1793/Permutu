@@ -260,6 +260,7 @@ class Gra extends Component {
 
   aktualizujKlockiGraczy(czyPrzelozyc, stanKolumny, kolumna, wybranyKolor)
   {
+    var index=gra.state.player-1
     if (czyPrzelozyc===1)
     {
       var klocek
@@ -286,41 +287,29 @@ class Gra extends Component {
         }
       }
       var aktualny=gra.state.ostatniKlocek;
+      aktualny[index][0]=klocek+kolumna
+      aktualny[index][1]=""
+      aktualny[index][2]=""
+      gra.setState({ ostatniKlocek: aktualny }) 
       switch(gra.state.player)
       {
         case 1: 
         {
-          aktualny[0][0]=klocek+kolumna
-          aktualny[0][1]=""
-          aktualny[0][2]=""
-          gra.setState({ ostatniKlocek: aktualny }) 
           gracz1.push(klocek)
           break
         }
         case 2: 
         {
-          aktualny[1][0]=klocek+kolumna
-          aktualny[1][1]=""
-          aktualny[1][2]=""
-          gra.setState({ ostatniKlocek: aktualny }) 
           gracz2.push(klocek)
           break
         }
         case 3: 
         {
-          aktualny[2][0]=klocek+kolumna
-          aktualny[2][1]=""
-          aktualny[2][2]=""
-          gra.setState({ ostatniKlocek: aktualny }) 
           gracz3.push(klocek)
           break
         }
         case 4: 
         {
-          aktualny[3][0]=klocek+kolumna
-          aktualny[3][1]=""
-          aktualny[3][2]=""
-          gra.setState({ ostatniKlocek: aktualny }) 
           gracz4.push(klocek)
           break
         }
@@ -334,173 +323,73 @@ class Gra extends Component {
     if (czyPrzelozyc===2)
     {
       aktualny=gra.state.ostatniKlocek;
-      switch(gra.state.player)
+      if (stanKolumny.showRed)
       {
-        case 1: 
+        aktualny[index][0]="r"+stanKolumny.redSymbol+kolumna
+      }
+      else
+      {
+        aktualny[index][0]=""
+      }
+      if (stanKolumny.showBlack)
+      {
+        aktualny[index][1]="b"+stanKolumny.blackSymbol+kolumna
+      }
+      else
+      {
+        aktualny[index][1]=""
+      }
+      if (stanKolumny.showGreen)
+      {
+        aktualny[index][2]="g"+stanKolumny.greenSymbol+kolumna
+      }
+      else
+      {
+        aktualny[index][2]=""
+      }
+      for (var i=0;i<3;i++)
+      {
+        if (aktualny[index][i]!=="")
         {
-          if (stanKolumny.showRed)
+          var offset
+          if (kolumna<10)
           {
-            aktualny[0][0]="r"+stanKolumny.redSymbol+kolumna
+            offset=1
           }
           else
           {
-            aktualny[0][0]=""
+            offset=2
           }
-          if (stanKolumny.showBlack)
+          switch(gra.state.player)
           {
-            aktualny[0][1]="b"+stanKolumny.blackSymbol+kolumna
-          }
-          else
-          {
-            aktualny[0][1]=""
-          }
-          if (stanKolumny.showGreen)
-          {
-            aktualny[0][2]="g"+stanKolumny.greenSymbol+kolumna
-          }
-          else
-          {
-            aktualny[0][2]=""
-          }
-          for (var i=0;i<3;i++)
-          {
-            if (aktualny[0][i]!=="")
+            case 1:
             {
-              if (kolumna<10)
-              {
-                gracz1.push(aktualny[0][i].slice(0,-1))
-              }
-              else
-              {
-                gracz1.push(aktualny[0][i].slice(0,-2))
-              }
+              gracz1.push(aktualny[index][i].slice(0,-offset))
+              break;
+            }
+            case 2:
+            {
+              gracz2.push(aktualny[index][i].slice(0,-offset))
+              break;
+            }
+            case 3:
+            {
+              gracz3.push(aktualny[index][i].slice(0,-offset))
+              break;
+            }
+            case 4:
+            {
+              gracz4.push(aktualny[index][i].slice(0,-offset))
+              break;
+            }
+            default:
+            {
+              break;
             }
           }
-          gra.setState({ ostatniKlocek: aktualny }) 
-          break
-        }
-        case 2: 
-        {
-          if (stanKolumny.showRed)
-          {
-            aktualny[1][0]="r"+stanKolumny.redSymbol+kolumna
-          }
-          else
-          {
-            aktualny[1][0]=""
-          }
-          if (stanKolumny.showBlack)
-          {
-            aktualny[1][1]="b"+stanKolumny.blackSymbol+kolumna
-          }
-          else
-          {
-            aktualny[1][1]=""
-          }
-          if (stanKolumny.showGreen)
-          {
-            aktualny[1][2]="g"+stanKolumny.greenSymbol+kolumna
-          }
-          for (i=0;i<3;i++)
-          {
-            if (aktualny[1][i]!=="")
-            {
-              if (kolumna<10)
-              {
-                gracz2.push(aktualny[1][i].slice(0,-1))
-              }
-              else
-              {
-                gracz2.push(aktualny[1][i].slice(0,-2))
-              }
-            }
-          }
-          gra.setState({ ostatniKlocek: aktualny }) 
-          break
-        }
-        case 3: 
-        {
-          if (stanKolumny.showRed)
-          {
-            aktualny[2][0]="r"+stanKolumny.redSymbol+kolumna
-          }
-          else
-          {
-            aktualny[2][0]=""
-          }
-          if (stanKolumny.showBlack)
-          {
-            aktualny[2][1]="b"+stanKolumny.blackSymbol+kolumna
-          }
-          else
-          {
-            aktualny[2][1]=""
-          }
-          if (stanKolumny.showGreen)
-          {
-            aktualny[2][2]="g"+stanKolumny.greenSymbol+kolumna
-          }
-          for (i=0;i<3;i++)
-          {
-            if (aktualny[2][i]!=="")
-            {
-              if (kolumna<10)
-              {
-                gracz3.push(aktualny[2][i].slice(0,-1))
-              }
-              else
-              {
-                gracz3.push(aktualny[2][i].slice(0,-2))
-              }
-            }
-          }
-          gra.setState({ ostatniKlocek: aktualny }) 
-          break
-        }
-        case 4: 
-        {
-          if (stanKolumny.showRed)
-          {
-            aktualny[3][0]="r"+stanKolumny.redSymbol+kolumna
-          }
-          else
-          {
-            aktualny[3][0]=""
-          }
-          if (stanKolumny.showBlack)
-          {
-            aktualny[3][1]="b"+stanKolumny.blackSymbol+kolumna
-          }
-          else
-          {
-            aktualny[3][1]=""
-          }
-          if (stanKolumny.showGreen)
-          {
-            aktualny[3][2]="g"+stanKolumny.greenSymbol+kolumna
-          }
-          for (i=0;i<3;i++)
-          {
-            if (aktualny[3][i]!=="")
-            {
-              if (kolumna<10)
-              {
-                gracz4.push(aktualny[3][i].slice(0,-1))
-              }
-              else
-              {
-                gracz4.push(aktualny[3][i].slice(0,-2))
-              }
-            }
-          }
-          gra.setState({ ostatniKlocek: aktualny }) 
-          break
-        }
-        default:
-        {
-          break
         }
       }
+      gra.setState({ ostatniKlocek: aktualny }) 
     }
   }
 
@@ -517,6 +406,10 @@ class Gra extends Component {
         gra.setState({player: ++gra.state.player}) 
       }
     }
+    //if (gra.state.player!==1)
+    //wywołaj metode tego innego playera
+    //metody to strategie i będą trzymane w stanie gry
+    //np gracz2: biereZawszezLewej
   }
 
   zapiszGre()
