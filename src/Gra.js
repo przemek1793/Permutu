@@ -92,7 +92,6 @@ class Gra extends Component {
 
     if (czyWziety)
     {
-      console.log("wziety")
       return 0
     }
 
@@ -529,19 +528,40 @@ class Gra extends Component {
       case 2:
       {
         //console.log("2")
-        gra.strategia1Wolny()
+        if (gra.czySaRuchy())
+        {
+          gra.strategia1Wolny()
+        }
+        else
+        {
+          gra.aktualizujTure(5, 4)
+        }
         break;
       }
       case 3:
       {
         //console.log("3")
-        gra.strategia1Wolny()
+        if (gra.czySaRuchy())
+        {
+          gra.strategia1Wolny()
+        }
+        else
+        {
+          gra.aktualizujTure(5, 4)
+        }
         break;
       }
       case 4:
       {
-      //  console.log("4")
-        gra.strategia1Wolny()
+        //  console.log("4")
+        if (gra.czySaRuchy())
+        {
+          gra.strategia1Wolny()
+        }
+        else
+        {
+          gra.aktualizujTure(5, 4)
+        }
         break;
       }
       default:
@@ -549,6 +569,39 @@ class Gra extends Component {
         break;
       }
     }
+  }
+
+  //Funkcja sprawdzająca czy gracz ma dostępne ruchy
+  czySaRuchy()
+  {
+    var zwrotZasad=0
+    for (var i=1;i<27;i++)
+    {
+      zwrotZasad=gra.pierwszaZasada(gra.plansza.current.kolumny[i].current.state, 'r')
+      if (zwrotZasad===0)
+      {
+        zwrotZasad=gra.pierwszaZasada(gra.plansza.current.kolumny[i].current.state, 'b')
+      }
+      if (zwrotZasad===0)
+      {
+        zwrotZasad=gra.pierwszaZasada(gra.plansza.current.kolumny[i].current.state, 'g')
+      }
+      if (zwrotZasad===0)
+      {
+        zwrotZasad=gra.drugaZasada(gra.plansza.current.kolumny[i].current.state)
+      }
+      if (zwrotZasad>0)
+      {
+        console.log("Jest ruch")
+        return true
+      } 
+    }
+    console.log("nie ma ruchów")
+    return false
+  }
+
+  componentDidUpdate()  {
+    gra.wybierzGracza()
   }
 
   //Strategie
@@ -589,10 +642,6 @@ class Gra extends Component {
     }
   }
 
-  componentDidUpdate()  {
-    gra.wybierzGracza()
-  }
-
 
   render() {
     if (this.state.hasError)
@@ -606,9 +655,10 @@ class Gra extends Component {
     }
     gra=this;
     var ostatniRuch=[]
+    var kolumna=0
     for (var i=0;i<4;i++)
     {
-      var czy2cyfrowaKolumna
+      var offset
       ostatniRuch.push(
       <li key={"Stan-tekst"+(i+1)} className="Stan-tekst">
         Ostatni ruch gracza {i+1}
@@ -621,27 +671,23 @@ class Gra extends Component {
         //czy numer kolumny jest 1 czy 2 cyfrowy
           if (this.state.ostatniKlocek[i][j].length===3)
           {
-            czy2cyfrowaKolumna=false
-            ostatniRuch.push(
-            <li key={"symbol"+(i+1)+j}>
-              <img src={require('./symbole/'+this.state.ostatniKlocek[i][j].slice(0,-1)+'.png')} alt={this.state.ostatniKlocek[i][j].slice(0,-1)}/>
-            </li>
-            )
+            offset=1
           }
           else
           {
-            czy2cyfrowaKolumna=true
-            ostatniRuch.push(
-              <li key={"symbol"+(i+1)+j}>
-                <img src={require('./symbole/'+this.state.ostatniKlocek[i][j].slice(0,-2)+'.png')} alt={this.state.ostatniKlocek[i][j].slice(0,-2)}/>
-              </li>
-            )
+            offset=2
           }
+          kolumna=this.state.ostatniKlocek[i][j].slice(-offset)
+          ostatniRuch.push(
+            <li key={"symbol"+(i+1)+j}>
+              <img src={require('./symbole/'+this.state.ostatniKlocek[i][j].slice(0,-offset)+'.png')} alt={this.state.ostatniKlocek[i][j].slice(0,-offset)}/>
+            </li>
+            )
         }
       } 
       ostatniRuch.push(
       <li key={"kolumna"+(i+1)} className="Stan-tekst">
-        w kolumnie {this.state.ostatniKlocek[i][0].slice(-1-czy2cyfrowaKolumna)}
+        w kolumnie {kolumna}
       </li> )
     }
     var stanPlanszy=[] //pusty przy nowej grze
