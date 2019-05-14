@@ -21,7 +21,8 @@ class Gra extends Component {
       //tura 1 gracza
       this.state = { 
       player: 1, 
-      ostatniKlocek: []
+      ostatniKlocek: [],
+      graczNieMaRuchów: false
       };
 
       //czyszczenie tablic klocków graczy
@@ -103,7 +104,6 @@ class Gra extends Component {
 
     gra.aktualizujKlockiGraczy(wartośćZwrotna, stanKolumny, kolumna, wybranyKolor)
     gra.aktualizujTure(wartośćZwrotna,4)
-    console.log(wartośćZwrotna)
     return wartośćZwrotna
   }
 
@@ -525,9 +525,19 @@ class Gra extends Component {
   {
     switch(gra.state.player)
     {
+      case 1:
+      {
+        if (!gra.czySaRuchy())
+        {
+          if (!gra.state.graczNieMaRuchów)
+          {
+            gra.setState({ graczNieMaRuchów: true})
+          }
+        }
+        break;
+      }
       case 2:
       {
-        //console.log("2")
         if (gra.czySaRuchy())
         {
           gra.strategia1Wolny()
@@ -540,7 +550,6 @@ class Gra extends Component {
       }
       case 3:
       {
-        //console.log("3")
         if (gra.czySaRuchy())
         {
           gra.strategia1Wolny()
@@ -553,7 +562,6 @@ class Gra extends Component {
       }
       case 4:
       {
-        //  console.log("4")
         if (gra.czySaRuchy())
         {
           gra.strategia1Wolny()
@@ -574,9 +582,9 @@ class Gra extends Component {
   //Funkcja sprawdzająca czy gracz ma dostępne ruchy
   czySaRuchy()
   {
-    var zwrotZasad=0
     for (var i=1;i<27;i++)
     {
+      var zwrotZasad=0
       zwrotZasad=gra.pierwszaZasada(gra.plansza.current.kolumny[i].current.state, 'r')
       if (zwrotZasad===0)
       {
@@ -592,12 +600,23 @@ class Gra extends Component {
       }
       if (zwrotZasad>0)
       {
-        console.log("Jest ruch")
+        if (gra.state.player===1)
+        {
+          console.log("Jest ruch w kolumnie "+i)
+        } 
         return true
       } 
     }
-    console.log("nie ma ruchów")
     return false
+  }
+
+  //funckja dostępna po kliknięciu przycisku dostępnego w przypadku braku ruchów
+  pominRuch()
+  {
+    if (gra.state.player===1)
+    {
+      gra.setState({player: ++gra.state.player}) 
+    }
   }
 
   componentDidUpdate()  {
@@ -695,12 +714,24 @@ class Gra extends Component {
     {
       stanPlanszy=this.props.location.state.dane[1].stanPlanszy
     }
+    var brakRuchow=undefined
+    if (this.state.graczNieMaRuchów)
+    {
+      brakRuchow=<div>
+        <p className="Gracz">
+        Nie masz żadnych dostępnych ruchów
+        </p>
+        <Button color="light" size="lg" style={{textDecoration: 'none', color:'black' }}  onClick={() => {this.pominRuch()}}>Pomiń ruch</Button>
+      </div>
+
+    }
 
     return (
       <div className="Gra">
         <p className="Gracz">
             Obecnie ruch wykonuje gracz {this.state.player}
         </p>
+        {brakRuchow}
         <GameGrid metodaPrzekladania={this.przelozSymbol} ref={this.plansza}  stan={stanPlanszy}></GameGrid>
         <p className="Gracz">
             Gracz 1
@@ -722,7 +753,6 @@ class Gra extends Component {
           {ostatniRuch}
         </div>
         <Button color="light" size="lg" style={{textDecoration: 'none', color:'black' }}  onClick={() => {this.zapiszGre()}}>Zapisz grę</Button>
-        <Button color="light" size="lg" style={{textDecoration: 'none', color:'black' }}  onClick={() => {this.wybierzGracza()}}>Ruch przeciwnika</Button>
         <Button color="light" size="lg" >
             <NavLink to="/Menu" style={{textDecoration: 'none', color:'black' }}>Powrót do menu</NavLink>
         </Button>
