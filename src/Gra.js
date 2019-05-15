@@ -194,11 +194,10 @@ class Gra extends Component {
   //druga zasada: Możesz wziąć całą kolumnę (a w kolumnie mogą leżeć 2 lub 3 klocki):
   //- jeśli masz już wszystkie symbole leżące w tej kolumnie
   //- lub jeśli dokładnie jeden klocek w tej kolumnie ma symbol, którego nie masz. 
-  drugaZasada(stanKolumny)
+  drugaZasada(stanKolumny, gracz=gra.wybierzStanGracza())
   {
     var wartoscZwrotna=0
     var ileBrakuje=0
-    var gracz=gra.wybierzStanGracza()
     var temp=gracz.symbole
     //sprawdzenie czy są przynajmniej 2 klocki w kolumnie
     if (stanKolumny.showRed+stanKolumny.showBlack+stanKolumny.showGreen>1)
@@ -557,7 +556,7 @@ class Gra extends Component {
       {
         if (gra.czySaRuchy())
         {
-          gra.strategia2Klocki()
+          gra.strategia2KlockiZZachowaniemNaKoniec()
           if (gra.state.gracz2NieMaRuchów)
           {
             gra.setState({ gracz2NieMaRuchów: false})
@@ -657,6 +656,46 @@ class Gra extends Component {
     if (gra.state.player===1)
     {
       gra.setState({player: ++gra.state.player}) 
+    }
+  }
+
+  //funkcja sprawdzająca czy aktualny gracz jako jedyny może wziąć daną kolumnę
+  //jeśli reguła 2 jest spełniona to reguła 1 nie może być spełniona, a więc wystarczy sprawdzić regułe 2 dla wszystkich graczy
+  sprawdzCzyTwojaKolumna(stanKolumny)
+  {
+    if (gra.drugaZasada(stanKolumny)===2)
+    {
+      var temp=0
+      if (gra.drugaZasada(stanKolumny, gra.panelGracza1.current.state)===2)
+      {
+        temp++
+      }
+      if (gra.drugaZasada(stanKolumny, gra.panelGracza2.current.state)===2)
+      {
+        temp++
+      }
+      if (gra.drugaZasada(stanKolumny, gra.panelGracza3.current.state)===2)
+      {
+        temp++
+      }
+      if (gra.drugaZasada(stanKolumny, gra.panelGracza4.current.state)===2)
+      {
+        temp++
+      }
+      //tylko jeden gracz(aktualny) może wziąć kolumnę
+      if (temp===1)
+      {
+        return true
+      }
+      else
+      {
+        return false
+      }
+    }
+    else
+    {
+      //gracz nie może wziąć kolumny
+      return false
     }
   }
 
@@ -890,74 +929,79 @@ class Gra extends Component {
   }
 
   //5.To samo co straregia 4, ale zachowaj na koniec kolumny z 2 takimi samymi klockami
+  //dorobić state, który będzie trzymał odrzucone kolumny
+  //lepsza będzie metoda która sprawdza czy jesteś jedynym, który może zdjąć klocek
   strategia2KlockiZZachowaniemNaKoniec()
   {
     for (var i=1;i<27;i++)
     {
-      var takieSame=0
-      var symbol
-      var wartoscZwrotna
-      if (gra.plansza.current.kolumny[i].current.state.redSymbol===gra.plansza.current.kolumny[i].current.state.blackSymbol)
+      if (!gra.sprawdzCzyTwojaKolumna(gra.plansza.current.kolumny[i].current.state))
       {
-        takieSame++
-        symbol=gra.plansza.current.kolumny[i].current.state.redSymbol
-      }
-      if (gra.plansza.current.kolumny[i].current.state.redSymbol===gra.plansza.current.kolumny[i].current.state.greenSymbol)
-      {
-        takieSame++
-        symbol=gra.plansza.current.kolumny[i].current.state.redSymbol
-      }
-      if (gra.plansza.current.kolumny[i].current.state.blackSymbol===gra.plansza.current.kolumny[i].current.state.greenSymbol)
-      {
-        takieSame++
-        symbol=gra.plansza.current.kolumny[i].current.state.blackSymbol
-      }
-      if (takieSame===1)
-      {
-        //szukaj ostatniego symbolu
-        for (var j=1;j<27;j++)
+        var takieSame=0
+        var symbol
+        var wartoscZwrotna
+        if (gra.plansza.current.kolumny[i].current.state.redSymbol===gra.plansza.current.kolumny[i].current.state.blackSymbol)
         {
-          //szukaj symbolu w innych kolumnach niż kolumna z 2 elementami
-          if (j!==i)
+          takieSame++
+          symbol=gra.plansza.current.kolumny[i].current.state.redSymbol
+        }
+        if (gra.plansza.current.kolumny[i].current.state.redSymbol===gra.plansza.current.kolumny[i].current.state.greenSymbol)
+        {
+          takieSame++
+          symbol=gra.plansza.current.kolumny[i].current.state.redSymbol
+        }
+        if (gra.plansza.current.kolumny[i].current.state.blackSymbol===gra.plansza.current.kolumny[i].current.state.greenSymbol)
+        {
+          takieSame++
+          symbol=gra.plansza.current.kolumny[i].current.state.blackSymbol
+        }
+        if (takieSame===1)
+        {
+          //szukaj ostatniego symbolu
+          for (var j=1;j<27;j++)
           {
-            var znaleziono=false
-            var kolor
-            if (gra.plansza.current.kolumny[j].current.state.blackSymbol===symbol)
+            //szukaj symbolu w innych kolumnach niż kolumna z 2 elementami
+            if (j!==i)
             {
-              znaleziono=true
-              kolor='b'
-            }
-            if (gra.plansza.current.kolumny[j].current.state.redSymbol===symbol)
-            {
-              znaleziono=true
-              kolor='r'
-            }
-            if (gra.plansza.current.kolumny[j].current.state.greenSymbol===symbol)
-            {
-              znaleziono=true
-              kolor='g'
-            }
-            if (znaleziono)
-            {
-              wartoscZwrotna=gra.przelozSymbol(kolor, j, gra.plansza.current.kolumny[j].current.state)
-              //zabiera brakujący symbol
-              if (wartoscZwrotna>0)
+              var znaleziono=false
+              var kolor
+              if (gra.plansza.current.kolumny[j].current.state.blackSymbol===symbol)
               {
-                gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[j].current,kolor)
-                return
+                znaleziono=true
+                kolor='b'
               }
-              //
-              //nie da się zdjąć tego symbolu więc szuka dalej
-              else
+              if (gra.plansza.current.kolumny[j].current.state.redSymbol===symbol)
               {
-                break;
+                znaleziono=true
+                kolor='r'
+              }
+              if (gra.plansza.current.kolumny[j].current.state.greenSymbol===symbol)
+              {
+                znaleziono=true
+                kolor='g'
+              }
+              if (znaleziono)
+              {
+                wartoscZwrotna=gra.przelozSymbol(kolor, j, gra.plansza.current.kolumny[j].current.state)
+                //zabiera brakujący symbol
+                if (wartoscZwrotna>0)
+                {
+                  gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[j].current,kolor)
+                  return
+                }
+                //
+                //nie da się zdjąć tego symbolu więc szuka dalej
+                else
+                {
+                  break;
+                }
               }
             }
           }
         }
       }
     }
-    //nie ma kolumny z w takimi samymi symbolami
+    //nie ma kolumny z w takimi samymi symbolami, albo są już niedostępne dla innych graczy
     gra.strategia1WolnaKolumna3Elementowa()
     return
   }
