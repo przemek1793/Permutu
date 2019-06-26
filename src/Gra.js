@@ -660,11 +660,25 @@ class Gra extends Component {
   }
 
   //funkcja sprawdzająca czy aktualny gracz jako jedyny może wziąć daną kolumnę
-  //jeśli reguła 2 jest spełniona to reguła 1 nie może być spełniona, a więc wystarczy sprawdzić regułe 2 dla wszystkich graczy
-  sprawdzCzyTwojaKolumna(stanKolumny)
+  sprawdzCzyTwojaKolumna(stanKolumny, czySprawdzacRegule1)
   {
     if (gra.drugaZasada(stanKolumny)===2)
     {
+      if (czySprawdzacRegule1)
+      {
+        if (gra.pierwszaZasada(stanKolumny,'r')===1)
+        {
+          return false
+        }
+        if (gra.pierwszaZasada(stanKolumny,'b')===1)
+        {
+          return false
+        }
+        if (gra.pierwszaZasada(stanKolumny,'g')===1)
+        {
+          return false
+        }
+      }
       var temp=0
       if (gra.drugaZasada(stanKolumny, gra.panelGracza1.current.state)===2)
       {
@@ -788,14 +802,72 @@ class Gra extends Component {
 
   //3.Weź pierwszą dostępną kolumnę od lewej, która zawiera 3 klocki, jeśli nie ma takiej to weź pierwszą dostępną kolumnę od lewej, jeśli takiej też nie ma
   //to weź pierwszy wolny klocek od lewej 
-  strategia1WolnaKolumna3Elementowa(kolumnyDoOpuszczenia=0)
+  strategia1WolnaKolumna3Elementowa()
   {
     var wartoscZwrotna=0
     var kolor
     //szukaj kolumny 3 elementowej do zdjęcia
     for (var i=1;i<27;i++)
     {
-      if (kolumnyDoOpuszczenia===0||!kolumnyDoOpuszczenia.includes(i))
+      wartoscZwrotna=gra.drugaZasada(gra.plansza.current.kolumny[i].current.state)
+      if (wartoscZwrotna===2&&gra.plansza.current.kolumny[i].current.state.showBlack&&gra.plansza.current.kolumny[i].current.state.showGreen&&gra.plansza.current.kolumny[i].current.state.showRed)
+      {
+        gra.przelozSymbol('r', i, gra.plansza.current.kolumny[i].current.state)
+        gra.zdejmijKolumneZPlanszy(gra.plansza.current.kolumny[i].current)
+        return
+      }
+    }
+    //szukaj kolumny do zdjęcia
+    for (i=1;i<27;i++)
+    {
+      wartoscZwrotna=gra.drugaZasada(gra.plansza.current.kolumny[i].current.state)
+      if (wartoscZwrotna===2)
+      {
+        if(gra.plansza.current.kolumny[i].current.state.showRed)
+        {
+          kolor='r'
+        }
+        else
+        {
+          kolor='b'
+        }
+        gra.przelozSymbol(kolor, i, gra.plansza.current.kolumny[i].current.state)
+        gra.zdejmijKolumneZPlanszy(gra.plansza.current.kolumny[i].current)
+        return
+      }
+    }
+    //nie ma kolumny do zdjęcia, szukaj klocka do zdjęcia
+    for (i=1;i<27;i++)
+    {
+      wartoscZwrotna=gra.przelozSymbol('r', i, gra.plansza.current.kolumny[i].current.state)
+      kolor='r'
+      if (wartoscZwrotna===0)
+      {
+        wartoscZwrotna=gra.przelozSymbol('b', i, gra.plansza.current.kolumny[i].current.state)
+        kolor='b'
+      }
+      if (wartoscZwrotna===0)
+      {
+        wartoscZwrotna=gra.przelozSymbol('g', i, gra.plansza.current.kolumny[i].current.state)
+        kolor='g'
+      }
+      if (wartoscZwrotna!==0)
+      {
+        gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[i].current,kolor)
+        return
+      }
+    }
+  }
+
+  //4.To samo co straregia 3, ale zachowaj kolumny których inni gracze nie mogą wziąć na koniec
+  strategia1WolnaKolumna3ElementowaZZachowaniemNaKoniec()
+  {
+    var wartoscZwrotna=0
+    var kolor
+    //szukaj kolumny 3 elementowej do zdjęcia
+    for (var i=1;i<27;i++)
+    {
+      if (!gra.sprawdzCzyTwojaKolumna(gra.plansza.current.kolumny[i].current.state,true))
       {
         wartoscZwrotna=gra.drugaZasada(gra.plansza.current.kolumny[i].current.state)
         if (wartoscZwrotna===2&&gra.plansza.current.kolumny[i].current.state.showBlack&&gra.plansza.current.kolumny[i].current.state.showGreen&&gra.plansza.current.kolumny[i].current.state.showRed)
@@ -809,7 +881,7 @@ class Gra extends Component {
     //szukaj kolumny do zdjęcia
     for (i=1;i<27;i++)
     {
-      if (kolumnyDoOpuszczenia===0||!kolumnyDoOpuszczenia.includes(i))
+      if (!gra.sprawdzCzyTwojaKolumna(gra.plansza.current.kolumny[i].current.state,true))
       {
         wartoscZwrotna=gra.drugaZasada(gra.plansza.current.kolumny[i].current.state)
         if (wartoscZwrotna===2)
@@ -831,30 +903,28 @@ class Gra extends Component {
     //nie ma kolumny do zdjęcia, szukaj klocka do zdjęcia
     for (i=1;i<27;i++)
     {
-      if (kolumnyDoOpuszczenia===0||!kolumnyDoOpuszczenia.includes(i))
+      wartoscZwrotna=gra.przelozSymbol('r', i, gra.plansza.current.kolumny[i].current.state)
+      kolor='r'
+      if (wartoscZwrotna===0)
       {
-        wartoscZwrotna=gra.przelozSymbol('r', i, gra.plansza.current.kolumny[i].current.state)
-        kolor='r'
-        if (wartoscZwrotna===0)
-        {
-          wartoscZwrotna=gra.przelozSymbol('b', i, gra.plansza.current.kolumny[i].current.state)
-          kolor='b'
-        }
-        if (wartoscZwrotna===0)
-        {
-          wartoscZwrotna=gra.przelozSymbol('g', i, gra.plansza.current.kolumny[i].current.state)
-          kolor='g'
-        }
-        if (wartoscZwrotna!==0)
-        {
-          gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[i].current,kolor)
-          return
-        }
+        wartoscZwrotna=gra.przelozSymbol('b', i, gra.plansza.current.kolumny[i].current.state)
+        kolor='b'
+      }
+      if (wartoscZwrotna===0)
+      {
+        wartoscZwrotna=gra.przelozSymbol('g', i, gra.plansza.current.kolumny[i].current.state)
+        kolor='g'
+      }
+      if (wartoscZwrotna!==0)
+      {
+        gra.zdejmijKlocekZPlanszy(gra.plansza.current.kolumny[i].current,kolor)
+        return
       }
     }
+    gra.strategia1WolnaKolumna3Elementowa();
   }
 
-  //4.Szukaj kolumny z 2 takimi samymi klockami, jeśli jest taka to zdobądź potrzebny klocek, a jeśli nie ma to zachowuj się zgodnie ze strategią 3
+  //5.Szukaj kolumny z 2 takimi samymi klockami, jeśli jest taka to zdobądź potrzebny klocek, a jeśli nie ma to zachowuj się zgodnie ze strategią 3
   //tabela zachowanych na później będzie w stanie
   strategia2Klocki()
   {
@@ -928,14 +998,14 @@ class Gra extends Component {
     return
   }
 
-  //5.To samo co straregia 4, ale zachowaj na koniec kolumny z 2 takimi samymi klockami
+  //6.To samo co straregia 5, ale zachowaj na koniec kolumny z 2 takimi samymi klockami
   //dorobić state, który będzie trzymał odrzucone kolumny
   //lepsza będzie metoda która sprawdza czy jesteś jedynym, który może zdjąć klocek
   strategia2KlockiZZachowaniemNaKoniec()
   {
     for (var i=1;i<27;i++)
     {
-      if (!gra.sprawdzCzyTwojaKolumna(gra.plansza.current.kolumny[i].current.state))
+      if (!gra.sprawdzCzyTwojaKolumna(gra.plansza.current.kolumny[i].current.state,true))
       {
         var takieSame=0
         var symbol
@@ -1002,7 +1072,7 @@ class Gra extends Component {
       }
     }
     //nie ma kolumny z w takimi samymi symbolami, albo są już niedostępne dla innych graczy
-    gra.strategia1WolnaKolumna3Elementowa()
+    gra.strategia1WolnaKolumna3ElementowaZZachowaniemNaKoniec()
     return
   }
   
