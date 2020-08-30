@@ -10,14 +10,17 @@ var  gracz2 = [];
 var  gracz3 = [];
 var  gracz4 = [];
 var gra;
+var iloscGraczy=0;
 
 
 class Gra extends Component {
   constructor(props) {
     super(props);
     //nowa gra
-    if (props.location.state===null)
+    console.log(props.location.state)
+    if (props.location.state<5)
     {
+      iloscGraczy=props.location.state;
       //tura 1 gracza
       this.state = { 
       player: 1, 
@@ -45,6 +48,7 @@ class Gra extends Component {
           player: props.location.state.dane[0].tura, 
           ostatniKlocek: props.location.state.dane[0].poprzednieRuchy,
         };
+        iloscGraczy= props.location.state.dane[0].ileGraczy;
         gracz1 = props.location.state.dane[0].player1;
         gracz2 = props.location.state.dane[0].player2;
         gracz3 = props.location.state.dane[0].player3;
@@ -106,7 +110,7 @@ class Gra extends Component {
     }
 
     gra.aktualizujKlockiGraczy(wartośćZwrotna, stanKolumny, kolumna, wybranyKolor)
-    gra.aktualizujTure(wartośćZwrotna,4)
+    gra.aktualizujTure(wartośćZwrotna)
     return wartośćZwrotna
   }
 
@@ -164,25 +168,31 @@ class Gra extends Component {
           }
         }
       }
-      temp=gra.panelGracza3.current.state.symbole
-      for (i=0; i<temp.length;i++)
+      if (iloscGraczy>2)
       {
-        if(temp[i].length>0)
+        temp=gra.panelGracza3.current.state.symbole
+        for (i=0; i<temp.length;i++)
         {
-          if (temp[i][0].charAt(1)===wybranySymbol)
+          if(temp[i].length>0)
           {
-            return wartoscZwrotna
+            if (temp[i][0].charAt(1)===wybranySymbol)
+            {
+              return wartoscZwrotna
+            } 
           }
         }
       }
-      temp=gra.panelGracza4.current.state.symbole
-      for (i=0; i<temp.length;i++)
+      if (iloscGraczy>3)
       {
-        if(temp[i].length>0)
+        temp=gra.panelGracza4.current.state.symbole
+        for (i=0; i<temp.length;i++)
         {
-          if (temp[i][0].charAt(1)===wybranySymbol)
+          if(temp[i].length>0)
           {
-            return wartoscZwrotna
+            if (temp[i][0].charAt(1)===wybranySymbol)
+            {
+              return wartoscZwrotna
+            }
           }
         }
       }
@@ -400,11 +410,11 @@ class Gra extends Component {
     gra.setState({ ostatniKlocek: aktualny }) 
   }
 
-  aktualizujTure(czyPrzelozono, iluGraczy)
+  aktualizujTure(czyPrzelozono)
   {
     if (czyPrzelozono>0)
     {
-      if (gra.state.player===iluGraczy)
+      if (gra.state.player===iloscGraczy)
       {
         gra.setState({ player: 1 }) 
       }
@@ -424,7 +434,7 @@ class Gra extends Component {
     var zapis={
       dane:[]
     }
-    zapis.dane.push({player1:gracz1, player2:gracz2, player3:gracz3, player4:gracz4, poprzednieRuchy: gra.state.ostatniKlocek, tura:gra.state.player});//, aktualneUstawienie:plansza
+    zapis.dane.push({ileGraczy:iloscGraczy, player1:gracz1, player2:gracz2, player3:gracz3, player4:gracz4, poprzednieRuchy: gra.state.ostatniKlocek, tura:gra.state.player});//, aktualneUstawienie:plansza
     var kolumny=[];
     for (var i=1;i<27;i++)
     {
@@ -454,9 +464,8 @@ class Gra extends Component {
       console.log("Nie zapisano gry");
       return;
     }
-
     var fs = window.require('fs');
-    fs.writeFile(nazwaZapisu, json, 'utf8', (err) => {
+    fs.writeFileSync(nazwaZapisu, json, 'utf8', (err) => {
       if(err){
           alert("Bląd przy zapisywaniu "+ err.message)
       }
@@ -564,7 +573,7 @@ class Gra extends Component {
         }
         else
         {
-          gra.aktualizujTure(5, 4)
+          gra.aktualizujTure(5)
           if (!gra.state.gracz2NieMaRuchów)
           {
             gra.setState({ gracz2NieMaRuchów: true})
@@ -584,7 +593,7 @@ class Gra extends Component {
         }
         else
         {
-          gra.aktualizujTure(5, 4)
+          gra.aktualizujTure(5)
           if (!gra.state.gracz3NieMaRuchów)
           {
             gra.setState({ gracz3NieMaRuchów: true})
@@ -604,7 +613,7 @@ class Gra extends Component {
         }
         else
         {
-          gra.aktualizujTure(5, 4)
+          gra.aktualizujTure(5)
           if (!gra.state.gracz4NieMaRuchów)
           {
             gra.setState({ gracz4NieMaRuchów: true})
@@ -688,14 +697,21 @@ class Gra extends Component {
       {
         temp++
       }
-      if (gra.drugaZasada(stanKolumny, gra.panelGracza3.current.state)===2)
+      if (iloscGraczy>2)
       {
+        if (gra.drugaZasada(stanKolumny, gra.panelGracza3.current.state)===2)
+        {
         temp++
+        }
       }
-      if (gra.drugaZasada(stanKolumny, gra.panelGracza4.current.state)===2)
+      if (iloscGraczy>3)
       {
-        temp++
+        if (gra.drugaZasada(stanKolumny, gra.panelGracza4.current.state)===2)
+        {
+          temp++
+        }
       }
+      
       //tylko jeden gracz(aktualny) może wziąć kolumnę
       if (temp===1)
       {
@@ -1091,7 +1107,7 @@ class Gra extends Component {
     gra=this;
     var ostatniRuch=[]
     var kolumna=0
-    for (var i=0;i<4;i++)
+    for (var i=0;i<iloscGraczy;i++)
     {
       var offset
       ostatniRuch.push(
@@ -1126,7 +1142,7 @@ class Gra extends Component {
       </li> )
     }
     var stanPlanszy=[] //pusty przy nowej grze
-    if (this.props.location.state!==null) //gra jest wczytana
+    if (this.props.location.state!==null&&!(this.props.location.state<5)) //gra jest wczytana
     {
       stanPlanszy=this.props.location.state.dane[1].stanPlanszy
     }
@@ -1146,7 +1162,6 @@ class Gra extends Component {
         <Button color="light" size="lg" style={{textDecoration: 'none', color:'black' }}  onClick={() => {this.pominRuch()}}>Pomiń ruch</Button>
       </div>
     }
-
     return (
       <div className="Gra">
         <p className="Gracz">
@@ -1154,22 +1169,34 @@ class Gra extends Component {
         </p>
         {brakRuchow}
         <GameGrid metodaPrzekladania={this.przelozSymbol} ref={this.plansza}  stan={stanPlanszy}></GameGrid>
-        <p className="Gracz">
+        <h1>
+          <p className="Gracz">
             Gracz 1
-        </p>
-        <PlayerGrid player={1} symbole={gracz1} ref={this.panelGracza1}></PlayerGrid>
-        <p className="Gracz">
+          </p>
+          <PlayerGrid player={1} symbole={gracz1} ref={this.panelGracza1}></PlayerGrid>
+        </h1>
+        <h1>
+          <p className="Gracz">
             Gracz 2
-        </p>
-        <PlayerGrid player={2} symbole={gracz2} ref={this.panelGracza2}></PlayerGrid>
-        <p className="Gracz">
-            Gracz 3
-        </p>
-        <PlayerGrid player={3} symbole={gracz3} ref={this.panelGracza3}></PlayerGrid>
-        <p className="Gracz">
-            Gracz 4
-        </p>
-        <PlayerGrid player={4} symbole={gracz4} ref={this.panelGracza4}></PlayerGrid>
+          </p>
+          <PlayerGrid player={2} symbole={gracz2} ref={this.panelGracza2}></PlayerGrid>
+        </h1>
+        {(iloscGraczy>2)&&
+          <h1>
+            <p className="Gracz">
+              Gracz 3
+            </p>
+            <PlayerGrid player={3} symbole={gracz3} ref={this.panelGracza3}></PlayerGrid>
+          </h1>
+        }
+        {(iloscGraczy>3)&&
+          <h1>
+            <p className="Gracz">
+              Gracz 4
+            </p>
+            <PlayerGrid player={4} symbole={gracz4} ref={this.panelGracza4}></PlayerGrid>
+          </h1>
+        }
         <div className="Stan">
           {ostatniRuch}
         </div>
