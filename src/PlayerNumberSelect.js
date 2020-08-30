@@ -4,9 +4,7 @@ import './Menu.css';
 import { NavLink, withRouter} from "react-router-dom";
 
 const electron = window.require('electron');
-const remote = electron.remote;
 var playerNumberSelect;
-
 
 function ButtonM(props){
     return <div className="ButtonsM">
@@ -18,35 +16,51 @@ function ButtonM(props){
 
 class PlayerNumberSelect extends Component {
 
+    constructor(props) {
+        super(props);
+        playerNumberSelect=this;
+    }
+
     dwochGraczy()
     {
+        var stan={
+            dane:[]
+          }
+        stan.dane.push({ileGraczy:2, czyAutomat:playerNumberSelect.props.location.state, czyNowaGra:1});
         playerNumberSelect.props.history.push(
         {
             pathname: "/Gra",
-            state: 2
+            state: stan
         })
     }
 
     trzechGraczy()
     {
+        var stan={
+            dane:[]
+          }
+        stan.dane.push({ileGraczy:3, czyAutomat:playerNumberSelect.props.location.state, czyNowaGra:1});
         playerNumberSelect.props.history.push(
         {
             pathname: "/Gra",
-            state: 3
+            state: stan
         })
     }
 
     czterechGraczy()
     {
+        var stan={
+            dane:[]
+          }
+        stan.dane.push({ileGraczy:4, czyAutomat:playerNumberSelect.props.location.state, czyNowaGra:1});
         playerNumberSelect.props.history.push(
         {
             pathname: "/Gra",
-            state: 4
+            state: stan
         })
     }
 
     render() {
-        playerNumberSelect=this
         return (
           <div className="Menu">
             <header className="Menu-header">

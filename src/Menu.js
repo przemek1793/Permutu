@@ -62,7 +62,7 @@ class Menu extends Component {
         <div className="MenuButtons">
           <div className="ButtonLink">
             <Button color="light" size="lg" >
-              <NavLink to="/PlayerNumberSelect" style={{textDecoration: 'none', color:'black' }}>Graj w Permutu</NavLink>
+              <NavLink to="/CzyAutomatyczna" style={{textDecoration: 'none', color:'black' }}>Graj w Permutu</NavLink>
             </Button>
           </div>
           <ButtonM text="Wczytaj grę"  click={this.wczytajGre}/>

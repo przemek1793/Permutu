@@ -11,16 +11,20 @@ var  gracz3 = [];
 var  gracz4 = [];
 var gra;
 var iloscGraczy=0;
+var nowaGra=0;
+var czyAutomat;
 
 
 class Gra extends Component {
   constructor(props) {
     super(props);
     //nowa gra
-    console.log(props.location.state)
-    if (props.location.state<5)
+    console.log(props.location.state);
+    iloscGraczy= props.location.state.dane[0].ileGraczy
+    nowaGra=props.location.state.dane[0].czyNowaGra;
+    czyAutomat=props.location.state.dane[0].czyAutomat;
+    if (nowaGra===1)
     {
-      iloscGraczy=props.location.state;
       //tura 1 gracza
       this.state = { 
       player: 1, 
@@ -48,7 +52,6 @@ class Gra extends Component {
           player: props.location.state.dane[0].tura, 
           ostatniKlocek: props.location.state.dane[0].poprzednieRuchy,
         };
-        iloscGraczy= props.location.state.dane[0].ileGraczy;
         gracz1 = props.location.state.dane[0].player1;
         gracz2 = props.location.state.dane[0].player2;
         gracz3 = props.location.state.dane[0].player3;
@@ -434,7 +437,7 @@ class Gra extends Component {
     var zapis={
       dane:[]
     }
-    zapis.dane.push({ileGraczy:iloscGraczy, player1:gracz1, player2:gracz2, player3:gracz3, player4:gracz4, poprzednieRuchy: gra.state.ostatniKlocek, tura:gra.state.player});//, aktualneUstawienie:plansza
+    zapis.dane.push({czyNowaGra:0,czyautomat:czyAutomat, ileGraczy:iloscGraczy, player1:gracz1, player2:gracz2, player3:gracz3, player4:gracz4, poprzednieRuchy: gra.state.ostatniKlocek, tura:gra.state.player});//, aktualneUstawienie:plansza
     var kolumny=[];
     for (var i=1;i<27;i++)
     {
@@ -1142,7 +1145,7 @@ class Gra extends Component {
       </li> )
     }
     var stanPlanszy=[] //pusty przy nowej grze
-    if (this.props.location.state!==null&&!(this.props.location.state<5)) //gra jest wczytana
+    if (nowaGra===0) //gra jest wczytana
     {
       stanPlanszy=this.props.location.state.dane[1].stanPlanszy
     }
