@@ -16,7 +16,7 @@ class Gra extends Component {
   constructor(props) {
     super(props);
     //nowa gra
-    if (props.location.state===undefined)
+    if (props.location.state===null)
     {
       //tura 1 gracza
       this.state = { 
@@ -441,27 +441,27 @@ class Gra extends Component {
     }
     zapis.dane.push({stanPlanszy: kolumny});
     var json = JSON.stringify(zapis);
-
+    console.log("jest")
     const dialog = window.require('electron').remote.dialog
-    dialog.showSaveDialog({
+    var nazwaZapisu=dialog.showSaveDialogSync({
       filters: [{
         name: 'JSON',
         extensions: ['json']
       }]
-    },(fileName) => {
-      if (fileName === undefined){
-          console.log("Nie zapisano gry");
-          return;
-      }
+    })
+    if (nazwaZapisu === undefined)
+    {
+      console.log("Nie zapisano gry");
+      return;
+    }
 
-      var fs = window.require('fs');
-      fs.writeFile(fileName, json, 'utf8', (err) => {
-          if(err){
-              alert("Bląd przy zapisywaniu "+ err.message)
-          }
-          alert("Gra została zapisana");
-      });
-  }); 
+    var fs = window.require('fs');
+    fs.writeFile(nazwaZapisu, json, 'utf8', (err) => {
+      if(err){
+          alert("Bląd przy zapisywaniu "+ err.message)
+      }
+      alert("Gra została zapisana");
+    });
   }
 
   wybierzStanGracza()
@@ -1126,7 +1126,7 @@ class Gra extends Component {
       </li> )
     }
     var stanPlanszy=[] //pusty przy nowej grze
-    if (this.props.location.state!==undefined) //gra jest wczytana
+    if (this.props.location.state!==null) //gra jest wczytana
     {
       stanPlanszy=this.props.location.state.dane[1].stanPlanszy
     }
@@ -1173,8 +1173,8 @@ class Gra extends Component {
         <div className="Stan">
           {ostatniRuch}
         </div>
-        <Button color="light" size="lg" style={{textDecoration: 'none', color:'black' }}  onClick={() => {this.zapiszGre()}}>Zapisz grę</Button>
-        <Button color="light" size="lg" >
+        <Button  className="Button" color="light" size="lg"  onClick={() => {this.zapiszGre()}}>Zapisz grę</Button>
+        <Button className="Button" color="light" size="lg" >
             <NavLink to="/Menu" style={{textDecoration: 'none', color:'black' }}>Powrót do menu</NavLink>
         </Button>
         </div>

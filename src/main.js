@@ -31,9 +31,14 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1200,
-    height: 700
+    height: 700,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+      nodeIntegrationInWorker: true,
+      nodeIntegrationInSubFrames: true,
+    }
   })
-
   // and load the index.html of the app.
   mainWindow.loadURL('http://localhost:3000/')
 
@@ -56,14 +61,6 @@ app.on('ready', (createWindow))
   const menu = Menu.buildFromTemplate(menuTemplate)
   Menu.setApplicationMenu(menu)
 }
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
 
 app.on('activate', function () {
   // On macOS it's common to re-create a window in the app when the

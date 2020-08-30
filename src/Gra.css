@@ -47,3 +47,10 @@
     font-size: 3vh;
     color: white;
   }
+
+  .Button 
+  {
+    text-decoration: 'none';
+    color:'black';
+    margin: 1vh;
+  }

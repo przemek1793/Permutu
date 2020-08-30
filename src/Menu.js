@@ -26,8 +26,14 @@ class Menu extends Component {
   wczytajGre()
   {
     const dialog = window.require('electron').remote.dialog
-    var file = dialog.showOpenDialog()
+    var file = dialog.showOpenDialogSync(
+      {
+         properties: ['openFile', 'multiSelections'],
+         filters: [{ name: 'Zapisane gry', extensions: ['json'] }]
+      }
+    )
     const fs = window.require('fs');
+    console.log(file)
     try 
     {
       var zapis = JSON.parse(fs.readFileSync(file[0], 'utf8'));
@@ -39,6 +45,7 @@ class Menu extends Component {
     } 
     catch (e) 
     {
+      console.log(e)
       alert("Niepoprawny plik")
     }
   }
@@ -66,5 +73,6 @@ class Menu extends Component {
     );
   }
 }
+
 
 export default withRouter(Menu);
