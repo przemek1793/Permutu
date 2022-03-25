@@ -34,6 +34,6 @@
   ],
   "author": "Przemysław Pajestka",
   "devDependencies": {
-    "electron": "^10.1.0"
+    "electron": "^13.6.6"
   }
 }
